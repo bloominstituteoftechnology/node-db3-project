@@ -3,7 +3,7 @@ exports.up = function(knex) {
   return knex.schema
     .createTable('schemes', tbl => {
       tbl.increments();
-      tbl.string('scheme_name', 128)
+      tbl.text('scheme_name', 128)
         .unique()
         .notNullable();
     })
@@ -11,6 +11,8 @@ exports.up = function(knex) {
       tbl.increments();
       tbl.integer('step_number')
         .unsigned()
+        .notNullable();
+      tbl.text('instructions')
         .notNullable();
       tbl.integer('scheme_id')
         .unsigned()

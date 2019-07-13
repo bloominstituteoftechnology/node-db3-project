@@ -19,6 +19,7 @@
   "homepage": "https://github.com/LambdaSchool/webdb-iii-challenge#readme",
   "dependencies": {
     "knex": "^0.19.0",
+    "knex-cleaner": "^1.2.1",
     "sqlite3": "^4.0.9"
   }
 }
