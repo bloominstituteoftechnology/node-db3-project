@@ -5,6 +5,7 @@ exports.seed = function(knex) {
     {scheme_name: 'Get Rich Quick'},
     {scheme_name: 'Revenge'},
     {scheme_name: 'More Instagram Followers'},
-    {scheme_name: 'Find the Holy Grail'}
+    {scheme_name: 'Find the Holy Grail'},
+    { scheme_name: 'Steal Coworker\'s Identity'}
   ]);
 };
