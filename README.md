@@ -1,4 +1,4 @@
-# Building an API using a Relational Database
+# Multi-Table Queries and Database Helpers
 
 ## Topics
 
