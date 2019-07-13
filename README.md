@@ -16,17 +16,41 @@ For this lab you will
 
 ### Multi Table Queries
 
+Visit [SQL Try Editor at W3Schools.com](https://www.w3schools.com/Sql/tryit.asp?filename=trysql_select_top) using the **Google Chrome (or Chromium if you use Linux) browser** and write _SQL queries_ for the following requirements:
+
+- Display the ProductName and CategoryName for all products in the database. Shows 76 records.
+- Display the OrderID and ShipperName for all orders placed before January 9, 1997. Shows 161 records.
+- Display all ProductNames and Quantities placed on order 10251. Sort by ProductName. Shows 3 records.
+- Display the OrderID, CustomerName and the employee's LastName for every order. All columns should be labeled clearly. Displays 196 records.
 
 ### Database Methods
 
 Write helpers methods in `./schemes/scheme-model.js` that match the following specifications:
 
-- `find()`: Calling find returns a promise that resolves to an array of all schemes in the database, sorted alphabetically by name. No steps are included.
-- `findById(id)`: This method expects a scheme `id` as its only paramater and resolve to a scheme object, including correctly ordered steps like so: `{ scheme_name: 'Find Holy Grail', steps: [ 'quest', '...and quest', 'burn a witch', '...and quest some more' ]}`. On an invalid `id`, resolves to `null`.
-- `findSteps(id)`: This method expects a scheme `id` and resolves to an array of all step objects for the given scheme, ordered correctly: `[ { id: 17, scheme_id: 5, step_number: 1, instructions: 'quest'}, { id: 18, scheme_id: 5, step_number: 2, instructions: '...and quest'}, etc. ]`.
-- `add(scheme)`: This method expects a scheme object and inserts that object into the database. It resolves to the newly inserted scheme, including `id`.
-- `update(changes, id)`: This method expects a changes object and an `id`. It will update the scheme with the given id. It resolves to the newly updated scheme object. 
-- `remove(id)`: This method removes the scheme object with the provided id. It resolves to the removed scheme or `null` if the id is invalid. (Hint: Only worry about removing the `scheme`, the database is configured to automatically remove all associated steps.)
+- `find()`: 
+  - Calling find returns a promise that resolves to an array of all schemes in the database.
+  - Schemes are sorted alphabetically by name. 
+  - No steps are included.
+- `findById(id)`: 
+  - Expects a scheme `id` as its only paramater.
+  - Resolve to a scheme object, including correctly ordered steps like so: `{ scheme_name: 'Find Holy Grail', steps: [ 'quest', '...and quest', 'burn a witch', '...and quest some more' ]}`. 
+  - On an invalid `id`, resolves to `null`.
+- `findSteps(id)`: 
+  - Expects a scheme `id`.
+  - Resolves to an array of all step objects for the given scheme, ordered correctly: `[ { id: 17, scheme_id: 5, step_number: 1, instructions: 'quest'}, { id: 18, scheme_id: 5, step_number: 2, instructions: '...and quest'}, etc. ]`.
+- `add(scheme)`: 
+  - Expects a scheme object.
+  - Inserts scheme into the database.
+  - Resolves to the newly inserted scheme, including `id`.
+- `update(changes, id)`: 
+  - Expects a changes object and an `id`. 
+  - Updates the scheme with the given id. 
+  - Resolves to the newly updated scheme object. 
+- `remove(id)`: 
+  - Removes the scheme object with the provided id. 
+  - Resolves to the removed scheme
+  - Reolves to `null` on an invalid id. 
+  - (Hint: Only worry about removing the `scheme`. The database is configured to automatically remove all associated steps.)
 
 #### Schemes Schema
 
@@ -57,6 +81,9 @@ The following endpoints are available to test the functionality of the model met
 
 ## Stretch Problems
 
-- Add the following method
+- In [SQL Try Editor at W3Schools.com](https://www.w3schools.com/Sql/tryit.asp?filename=trysql_select_top):
+  - Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 9 records.
+  - Display OrderID and a  column called ItemCount that shows the total number of products placed on the order. Shows 196 records. 
+- Add the following method to your API
   - `addStep(step, scheme_id)`: This method expects a step object and a scheme id. It inserts the new step into the database, correctly linking it to the intended scheme.
   - You may use `POST /api/schemes/:id/addStep` to test this method. 
