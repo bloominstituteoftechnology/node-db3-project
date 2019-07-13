@@ -61,7 +61,7 @@ router.post('/:id/steps', (req, res) => {
   const { id } = req.params; 
 
   try {
-    const scheme = await Scheme.FindById(id);
+    const scheme = await Scheme.findById(id);
 
     if (scheme) {
       const step = await Scheme.addStep(stepData, id);
