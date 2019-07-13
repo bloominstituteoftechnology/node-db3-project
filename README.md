@@ -29,15 +29,15 @@ Write helpers methods in `./schemes/scheme-model.js` that match the following sp
 
 - `find()`: 
   - Calling find returns a promise that resolves to an array of all schemes in the database.
-  - Schemes are sorted alphabetically by name. 
   - No steps are included.
 - `findById(id)`: 
   - Expects a scheme `id` as its only paramater.
-  - Resolve to a scheme object, including correctly ordered steps like so: `{ scheme_name: 'Find Holy Grail', steps: [ 'quest', '...and quest', 'burn a witch', '...and quest some more' ]}`. 
-  - On an invalid `id`, resolves to `null`.
+  - Resolve to a single scheme object. 
+  - On an invalid `id`, resolves to `null`. 
 - `findSteps(id)`: 
   - Expects a scheme `id`.
-  - Resolves to an array of all step objects for the given scheme, ordered correctly: `[ { id: 17, scheme_id: 5, step_number: 1, instructions: 'quest'}, { id: 18, scheme_id: 5, step_number: 2, instructions: '...and quest'}, etc. ]`.
+  - Resolves to an array of all correctly ordered step for the given scheme: `[ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ]`.
+  - This array should include the `scheme_name` *not* the `scheme_id`.
 - `add(scheme)`: 
   - Expects a scheme object.
   - Inserts scheme into the database.
@@ -72,9 +72,9 @@ Write helpers methods in `./schemes/scheme-model.js` that match the following sp
 
 The following endpoints are available to test the functionality of the model methods.
 
-- `GET /api/schemes/` - gets master list of schemes, alphabetizes by name, without steps
-- `GET /api/schemes/:id` - gets a single scheme, including ordered steps 
-- `GET /api/schemes/:id/steps` - gets all steps for a given scheme, ordered
+- `GET /api/schemes/` - gets master list of schemes (without steps)
+- `GET /api/schemes/:id` - gets a single scheme
+- `GET /api/schemes/:id/steps` - gets all steps for a given scheme, ordered correctly
 - `POST /api/schemes` - adds a new scheme
 - `PUT /api/schemes:id` - updates a given scheme 
 - `DELETE /api/schemes/:id` - removes a given scheme and all associated steps

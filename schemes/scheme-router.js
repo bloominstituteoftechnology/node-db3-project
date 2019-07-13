@@ -4,7 +4,7 @@ const Schemes = require('./scheme-model.js');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const schemes = await Schemes.find();
     res.json(schemes);
@@ -13,11 +13,11 @@ router.get('/', (req, res) => {
   }
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const scheme = Schemes.findById(id);
+    const scheme = await Schemes.findById(id);
 
     if (scheme) {
       res.json(scheme);
@@ -29,42 +29,42 @@ router.get('/:id', (req, res) => {
   }
 });
 
-router.get('/:id/steps', (req, res) => {
+router.get('/:id/steps', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const steps = Schemes.findSteps(id);
+    const steps = await Schemes.findSteps(id);
 
     if (steps.length) {
       res.json(steps);
     } else {
-      res.status(404).json({ message: 'Could not find steps for given scheme.' })
+      res.status(404).json({ message: 'Could not find steps for given scheme' })
     }
   } catch (err) {
     res.status(500).json({ message: 'Failed to get steps' });
   }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const schemeData = req.body;
 
   try {
-    const scheme = await Scheme.add(schemeData);
+    const scheme = await Schemes.add(schemeData);
     res.status(201).json(scheme);
   } catch (err) {
     res.status(500).json({ message: 'Failed to create new scheme' });
   }
 });
 
-router.post('/:id/steps', (req, res) => {
+router.post('/:id/steps', async (req, res) => {
   const stepData = req.body;
   const { id } = req.params; 
 
   try {
-    const scheme = await Scheme.findById(id);
+    const scheme = await Schemes.findById(id);
 
     if (scheme) {
-      const step = await Scheme.addStep(stepData, id);
+      const step = await Schemes.addStep(stepData, id);
       res.status(201).json(step);
     } else {
       res.status(404).json({ message: 'Could not find scheme with given id.' })
@@ -74,12 +74,12 @@ router.post('/:id/steps', (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
   try {
-    const scheme = await Scheme.findById(scheme);
+    const scheme = await Schemes.findById(id);
 
     if (scheme) {
       const updatedScheme = await Schemes.update(changes, id);
@@ -92,7 +92,7 @@ router.put('/:id', (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
