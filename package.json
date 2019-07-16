@@ -1,23 +1,21 @@
 {
-  "name": "webdb-iii-challenge",
+  "name": "node-db3-challenge",
   "version": "1.0.0",
-  "description": "## Topics",
+  "description": "Challenge for Node DB3 Module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon"
+    "server": "nodemon index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LambdaSchool/webdb-iii-challenge.git"
+    "url": "git+https://github.com/LambdaSchool/node-db3-challenge.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Lambda School",
   "bugs": {
-    "url": "https://github.com/LambdaSchool/webdb-iii-challenge/issues"
+    "url": "https://github.com/LambdaSchool/node-db3-challenge/issues"
   },
-  "homepage": "https://github.com/LambdaSchool/webdb-iii-challenge#readme",
+  "homepage": "https://github.com/LambdaSchool/node-db3-challenge#readme",
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.19.0",
