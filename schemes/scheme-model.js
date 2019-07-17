@@ -1,6 +1,6 @@
 const db = require("./config");
 const { ErrorHandler } = require("../helpers");
-const msg = "Internal server error";
+
 const find = async () => {
   try {
     const schemes = await db("schemes");
@@ -15,7 +15,7 @@ const findById = async id => {
     const scheme = await db("schemes").where({ id });
     return scheme;
   } catch (error) {
-    throw new ErrorHandler(500, msg);
+    throw new ErrorHandler(500, error.message);
   }
 };
 
@@ -31,13 +31,25 @@ const findSteps = async id => {
       .groupBy("steps.step_number");
     return scheme;
   } catch (error) {
-    console.log(error);
-    throw new ErrorHandler(500, msg);
+    throw new ErrorHandler(500, error.message);
   }
 };
+
+const add = async (scheme) => {
+  try {
+    const newScheme = await db('schemes').insert(scheme)
+    if (newScheme.length) {
+      return findById(newScheme[0])
+    }
+    return null
+  } catch (error) {
+    throw new ErrorHandler(500, error.message)
+  }
+}
 
 module.exports = {
   find,
   findById,
-  findSteps
+  findSteps,
+  add,
 };
