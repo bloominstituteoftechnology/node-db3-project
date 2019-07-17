@@ -1,5 +1,7 @@
 const express = require('express');
 
+const db = require('../data/db.config.js');
+
 const Schemes = require('./scheme-model.js');
 
 const router = express.Router();
@@ -58,7 +60,7 @@ router.post('/', async (req, res) => {
 
 router.post('/:id/steps', async (req, res) => {
   const stepData = req.body;
-  const { id } = req.params; 
+  const { id } = req.params;
 
   try {
     const scheme = await Schemes.findById(id);
