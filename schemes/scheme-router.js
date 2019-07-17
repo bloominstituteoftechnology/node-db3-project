@@ -41,6 +41,7 @@ router.get('/:id/steps', async (req, res) => {
       res.status(404).json({ message: 'Could not find steps for given scheme' })
     }
   } catch (err) {
+    console.log(err)
     res.status(500).json({ message: 'Failed to get steps' });
   }
 });
