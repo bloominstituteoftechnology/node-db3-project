@@ -47,9 +47,24 @@ const add = async (scheme) => {
   }
 }
 
+const update = async (scheme, id) => {
+  try {
+    const newScheme = await db('schemes').update(scheme)
+    .where({ id })
+    if (newScheme) {
+      return findById(id)
+    }
+    return null
+  } catch (error) {
+    throw new ErrorHandler(500, error.message)
+  }
+}
+
+
 module.exports = {
   find,
   findById,
   findSteps,
   add,
+  update
 };
