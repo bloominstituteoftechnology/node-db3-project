@@ -7,7 +7,8 @@ module.exports = {
     findSteps,
     add,
     update,
-    remove
+    remove,
+    addStep
 
 }
 
@@ -52,6 +53,5 @@ function remove(id) {
   //stretch
 
   async function addStep(step, scheme_id){
-      const newStep = await db('steps').insert(step);
-     return findById(id)
-  }
+      await db('steps').insert(step, scheme_id);
+   }

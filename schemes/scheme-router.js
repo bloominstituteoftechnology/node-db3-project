@@ -70,7 +70,7 @@ router.post('/:id/steps', async (req, res) => {
       res.status(404).json({ message: 'Could not find scheme with given id.' })
     }
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create new step' });
+    res.status(500).json({err: err.message, message: 'Failed to create new step' });
   }
 });
 
