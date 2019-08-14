@@ -21,16 +21,17 @@ function findById(id) {
     .first();
 }
 
-function findSteps(schemeId) {
+function findSteps(scheme_id) {
   return db('steps as st')
     .join('schemes as sc', 'st.step_number', 'sc.id')
     .select(
       'st.id',
       'st.step_number',
-      'sc.id as schemeId',
-      'sc.scheme_name as scheme'
+      'sc.id as scheme_id',
+      'sc.scheme_name as scheme',
+      'st.instructions'
     )
-    .where({ scheme_id: schemeId });
+    .where({ scheme_id });
 }
 
 function findStepById(id) {
