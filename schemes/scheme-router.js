@@ -74,6 +74,17 @@ router.post('/:id/steps', async (req, res) => {
   }
 });
 
+//stretch///
+
+// router.post('/:id/addStep', async (req, res)=> {
+//   const stepData = req.body;
+//   const{id} = req.params;
+
+//   try{
+//     const step = await 
+//   }
+// })
+
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
