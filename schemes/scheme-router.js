@@ -22,10 +22,12 @@ router.get('/:id', async (req, res) => {
     if (scheme) {
       res.json(scheme);
     } else {
-      res.status(404).json({ message: 'Could not find scheme with given id.' })
+      res.status(404).json({ message: 'Could not find scheme with given id.' });
     }
   } catch (err) {
-    res.status(500).json({ message: 'Failed to get schemes' });
+    res
+      .status(500)
+      .json({ err: err.message, message: 'Failed to get schemes' });
   }
 });
 
@@ -38,10 +40,12 @@ router.get('/:id/steps', async (req, res) => {
     if (steps.length) {
       res.json(steps);
     } else {
-      res.status(404).json({ message: 'Could not find steps for given scheme' })
+      res
+        .status(404)
+        .json({ message: 'Could not find steps for given scheme' });
     }
   } catch (err) {
-    res.status(500).json({ message: 'Failed to get steps' });
+    res.status(500).json({ err: err.message, message: 'Failed to get steps' });
   }
 });
 
@@ -52,13 +56,15 @@ router.post('/', async (req, res) => {
     const scheme = await Schemes.add(schemeData);
     res.status(201).json(scheme);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create new scheme' });
+    res
+      .status(500)
+      .json({ err: err.message, message: 'Failed to create new scheme' });
   }
 });
 
 router.post('/:id/steps', async (req, res) => {
   const stepData = req.body;
-  const { id } = req.params; 
+  const { id } = req.params;
 
   try {
     const scheme = await Schemes.findById(id);
@@ -67,10 +73,12 @@ router.post('/:id/steps', async (req, res) => {
       const step = await Schemes.addStep(stepData, id);
       res.status(201).json(step);
     } else {
-      res.status(404).json({ message: 'Could not find scheme with given id.' })
+      res.status(404).json({ message: 'Could not find scheme with given id.' });
     }
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create new step' });
+    res
+      .status(500)
+      .json({ err: err.message, message: 'Failed to create new step' });
   }
 });
 
@@ -88,7 +96,9 @@ router.put('/:id', async (req, res) => {
       res.status(404).json({ message: 'Could not find scheme with given id' });
     }
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update scheme' });
+    res
+      .status(500)
+      .json({ err: err.message, message: 'Failed to update scheme' });
   }
 });
 
