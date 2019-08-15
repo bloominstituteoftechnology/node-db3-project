@@ -31,12 +31,19 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/steps', async (req, res) => {
   const { id } = req.params;
-
+  
   try {
     const steps = await Schemes.findSteps(id);
-
+    const scheme = await Schemes.findById(id);
+    console.log('steps', steps)
     if (steps.length) {
-      res.json(steps);
+      // scheme.steps = []
+      // steps.map( step => {
+      //   console.log('step', step)
+      //   scheme.steps.push(step)
+      // })
+      res.json({ ...scheme, steps: steps });
+      console.log(scheme)
     } else {
       res.status(404).json({ message: 'Could not find steps for given scheme' })
     }

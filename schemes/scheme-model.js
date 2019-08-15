@@ -18,13 +18,15 @@ function find(){
 }
 
 function findById(id){
-  return db('schemes').where({ id });
+  return db('schemes')
+    .where({ id })
+    .first()
 }
 
 function findSteps(id){
-  return db('steps as st')
-    .innerJoin('schemes as sc', 'st.scheme_id', '=', 'sc.id')
-    .select('sc.id', 'sc.scheme_name', 'st.step_number', 'st.instructions')
+  return db('schemes as sc')
+    .innerJoin('steps as st', 'st.scheme_id', '=', 'sc.id')
+    .select('st.id', 'st.step_number', 'st.instructions','sc.id')
     .orderBy('st.step_number')
     .where({ scheme_id: id})
 }
