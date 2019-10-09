@@ -22,14 +22,25 @@ function findById(id) {
 function findSteps(schemeId) {
   return db('steps as st')
     .join('schemes as s', 's.id', 'st.scheme_id')
-    .select('st.id', 'st.contents as quote', 'u.username as saidBy')
-    .where({ user_id: userId });
+    .where({ scheme_id: schemeId });
 }
 
-function add(user) {
-  return db('users')
-    .insert(user, 'id')
+function add(scheme) {
+  return db('schemes')
+    .insert(scheme, 'id')
     .then(([id]) => {
       return findById(id);
     });
 }
+function update(id, changes) {
+    return db('schemes')
+      .where({ id })
+      .update(changes);
+  }
+  
+  function remove(id) {
+    return db('schemes')
+      .where('id', id)
+      .del();
+  }
+
