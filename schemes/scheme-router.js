@@ -50,7 +50,11 @@ router.post('/', (req, res) => {
   const schemeData = req.body;
 
   Schemes.add(schemeData)
-  .then(scheme => {
+  .then(([scheme]) => {
+
+    Schemes.findById(scheme)
+
+      .first()
     res.status(201).json(scheme);
   })
   .catch (err => {
@@ -87,7 +91,12 @@ router.put('/:id', (req, res) => {
     if (scheme) {
       Schemes.update(changes, id)
       .then(updatedScheme => {
-        res.json(updatedScheme);
+        Schemes.findById(id) 
+          .first()
+          .then(results => {
+            res.status(201).json(results)
+          })
+          .catch('error retrieving updated object', error)
       });
     } else {
       res.status(404).json({ message: 'Could not find scheme with given id' });
@@ -100,11 +109,21 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
+  let deletedValue = {};
+
+  Schemes.findById(id)
+    .first() 
+    .then(results => {
+      deletedValue = {...results}
+    })
+    .catch(error => {
+      console.log('error retrieving deleted value', error)
+    })
 
   Schemes.remove(id)
   .then(deleted => {
     if (deleted) {
-      res.json({ removed: deleted });
+      res.json(deletedValue);
     } else {
       res.status(404).json({ message: 'Could not find scheme with given id' });
     }
