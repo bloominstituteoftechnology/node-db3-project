@@ -1,7 +1,9 @@
 # Database Queries
 
 ### Display the ProductName and CategoryName for all products in the database. Shows 76 records.
-
+SELECT Products.ProductName, Categories.CategoryName
+FROM Products
+INNER JOIN Categories ON Products.CategoryID=Categories.CategoryID;
 
 ### Display the OrderID and ShipperName for all orders placed before January 9, 1997. Shows 161 records.
 
