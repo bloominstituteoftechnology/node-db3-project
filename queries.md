@@ -11,7 +11,11 @@ FROM Orders
 INNER JOIN Shippers ON Orders.ShipperID=Shippers.ShipperID
 WHERE OrderDate<"1997-01-09"
 ### Display all ProductNames and Quantities placed on order 10251. Sort by ProductName. Shows 3 records.
-
+SELECT Products.ProductName, OrderDetails.Quantity, Products.ProductID
+FROM Products
+INNER JOIN Orderdetails ON Products.ProductID=OrderDetails.ProductID
+WHERE OrderID='10251'
+ORDER BY ProductName
 ### Display the OrderID, CustomerName and the employee's LastName for every order. All columns should be labeled clearly. Displays 196 records.
 
 ### (Stretch)  Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 9 records.
