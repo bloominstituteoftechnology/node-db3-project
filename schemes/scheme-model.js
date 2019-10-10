@@ -37,13 +37,24 @@ function add(schemeData) {
     return db('schemes').insert(schemeData)
 }
 
-function update(changes, id) {
-    return db('schemes')
-    .where({id})
-    .update(changes)
-}
+function update(changes, id) { 
+    return db('schemes') 
+        .where({id: id}) 
+        .update(changes, id) 
+} 
+
+
+
+
+
 
 function remove(id) {
-    return db('schemes').where({id}).del()
+    return db('schemes')
+    .where({id})
+    .del()
 }
 
+function addStep(step, scheme_id) {
+    newStep = {...step, scheme_id: scheme_id}
+    return db('steps').insert(newStep)
+}
