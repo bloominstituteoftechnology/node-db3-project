@@ -39,19 +39,9 @@ const remove = async id => {
     return toBeDeleted;
 }
 
-const findStepById = id => {
-    return db("steps").where({ id }).first();
-}
+const findStepById = id => db("steps").where({ id }).first();
 
-const addStep = async (step, scheme_id) => {
-    const newStep = {
-        scheme_id,
-        step_number: step.step_number,
-        instructions: step.instructions
-    }
-    const [id] = await db("steps").insert(newStep, "id")
-    return findStepById;
-}
+const addStep = newStep => db("steps").insert(newStep, "id");
 
 module.exports = {
     find, 

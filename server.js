@@ -1,6 +1,6 @@
 const express = require('express');
 
-const SchemeRouter = require('./schemes/scheme-router.js');
+const SchemeRouter = require('./schemes/scheme-router-new.js');
 const errorHandler = require("./middleware/errorHandler");
 
 const server = express();
