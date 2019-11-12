@@ -4,11 +4,11 @@ Express uses middleware for everything (almost everything). One type of middlewa
 
 ## Basic errorHandler
 
-In order to create an error handler middleware, you need to have **4 parameters:* `err`, `req`, `res`, and `next`.
+In order to create an error handler middleware, you need to have **4 parameters:** `err`, `req`, `res`, and `next`.
 
 Here's a simple example of an error handler middleware:
 
-```
+```js
 module.exports = errorHandler;
 
 function errorHandler(err, req, res, next) {
@@ -24,7 +24,7 @@ How do we get to the errorHandler though? . . . by using `next()`!
 ## Calling the error Handler
 
 Let's take a basic router method:
-```
+```js
 router.get('/', (req, res) => {
   Schemes.find()
   .then(schemes => {
@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
 });
 ```
 This should find and respond with all of the schemes in the database. If we wanted to use our errorHandler, we could change the code to look like:
-```
+```js
 router.get('/', (req, res, next) => { // Include next in the paramters
   Schemes.find()
   .then(schemes => {
@@ -50,7 +50,7 @@ If we call `next()` and pass something into the function as an argument (just li
 ## Using the error handler
 
 We have an errorHandler, and we've set up our router method to call the errorHandler. Let's make sure that our server is actually using our error middleware:
-```
+```js
 // Inside server.js
 
 const express = require('express');
@@ -74,7 +74,7 @@ The errorHandler must be used last so it can catch any and all errors. Once you 
 Okay, so this errorHandler isn't that great. It only responds with a 500, and that's not really scaleable...
 
 Let's take a look at a different route:
-```
+```js
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -93,7 +93,7 @@ router.get('/:id', (req, res) => {
 ```
 
 This route has two responses that aren't succesful: a status 404, and a status 500. Here's one way you can set up your router to go to the errorHandler:
-```
+```js
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
 
@@ -110,7 +110,7 @@ router.get('/:id', (req, res, next) => {
 ```
 
 This router method now calls the error handler anytime that *isn't* a successful response. Let's make sure our errorHandler can send the correct response to the user:
-```
+```js
 module.exports = errorHandler;
 
 function errorHandler(err, req, res, next) {
@@ -129,7 +129,7 @@ Now, our errorHandler will respond to the client with the status message we've d
 ### Above and Beyond
 
 Want to add more info to your error Handler? Try something like this:
-```
+```js
 module.exports = errorHandler;
 
 function errorHandler(err, req, res, next) {
