@@ -37,12 +37,7 @@ const addStep = (step, scheme_id) => {
 };
 
 const add = newScheme => {
-    return schemeModel.findByName(newScheme.scheme_name)
-        .then(scheme => {
-            if (scheme) throw {status:400, details:"A scheme with this name already exists."}
-            else return;
-        })
-        .then( () => schemeModel.add(newScheme) )
+    return schemeModel.add(newScheme)
         .then( ids => schemeModel.findById(ids[0]) )
 };
 

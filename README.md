@@ -87,3 +87,11 @@ The following endpoints are available to test the functionality of the model met
 - Add the following method to your API
   - `addStep(step, scheme_id)`: This method expects a step object and a scheme id. It inserts the new step into the database, correctly linking it to the intended scheme.
   - You may use `POST /api/schemes/:id/addStep` to test this method.
+
+
+# Extra Content
+
+Sometimes, in my travels, I find things that I think are worth sharing.
+
+This is one of those times.
+
