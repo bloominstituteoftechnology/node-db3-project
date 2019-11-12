@@ -109,7 +109,7 @@ router.get('/:id', (req, res, next) => {
 });
 ```
 
-This router method now calls the error handler anytime that *isn't* a successful response. Let's make sure our errorHandler can send the correct response to the user:
+This router method now calls the error handler *anytime* it has an unsuccesful response. Let's make sure our errorHandler can send the correct response to the user:
 ```js
 module.exports = errorHandler;
 
@@ -135,8 +135,8 @@ module.exports = errorHandler;
 function errorHandler(err, req, res, next) {
 
     const errorObject = {
-        method: req.method,
-        endpoint: req.originalUrl,
+        method: req.method, // Include the method like "GET", "POST, etc
+        endpoint: req.originalUrl, // Include the endpoint, just to check if they went to the correct url
         status: err.status || 500, // If we have a status, we take it. If we don't have a status, set it to 500 automatically
         deatils: err.details || "Internal Server Error" // Have details? Use em. Don't have any? Use the default phrase.
     }
@@ -145,4 +145,4 @@ function errorHandler(err, req, res, next) {
 }
 ```
 
-Check out the errorHandler file in this repo to see more!
+Check out the [errorHandler](./middleware/errorHandler.js) file in this repo to see more!
