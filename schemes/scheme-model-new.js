@@ -8,6 +8,10 @@ const findById = id => {
     return db("schemes").where({ id }).first();
 }
 
+const findByName = scheme_name => {
+    return db("schemes").where({ scheme_name }).first();
+}
+
 const findSteps = id => {
     return db("steps as st")
         .join("schemes as sch", "sch.id", "st.scheme_id")
@@ -16,28 +20,15 @@ const findSteps = id => {
         .orderBy("st.step_number");
 }
 
-const add = async scheme => {
-    const [id] = await db("schemes")
-                    .insert(scheme, "id")
-    return findById(id)
-}
+const add = scheme => db("schemes").insert(scheme, "id");
 
-const update = async (changes, id) => {
-    const success = await db("schemes")
-                            .where({ id })
-                            .update(changes);
-    if (success) return findById(id)
-    else throw "We could not update!"
-}
-
-const remove = async id => {
-    const toBeDeleted = await findById(id);
-    if (!toBeDeleted) return null
-    await db("schemes")
+const update = (changes, id) => {
+    return db("schemes")
             .where({ id })
-            .del();
-    return toBeDeleted;
+            .update(changes);
 }
+
+const remove = id =>  db("schemes").where({ id }).del();
 
 const findStepById = id => db("steps").where({ id }).first();
 
@@ -46,6 +37,7 @@ const addStep = newStep => db("steps").insert(newStep, "id");
 module.exports = {
     find, 
     findById,
+    findByName,
     findSteps,
     add,
     update,

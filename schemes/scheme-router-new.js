@@ -1,95 +1,99 @@
-const express = require('express');
+const express = require("express");
 
-const Schemes = require('./scheme-model.js');
-const schemeService = require('./scheme-service.js');
+const Schemes = require("./scheme-model.js");
+const schemeService = require("./scheme-service.js");
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  Schemes.find()
-  .then(schemes => {
-    res.json(schemes);
-  })
-  .catch( err => next(err) );
+//==================MIDDLEWARE=====================//
+const bodyValidator = (req, res, next) => {
+  if (!req.body || !Object.keys(req.body).length) {
+    next({ status: 400, details: "Please provide a body with your request." });
+  } else next();
+};
+
+const schemeValidator = (req, res, next) => {
+  const { scheme_name } = req.body;
+  if (!scheme_name || typeof scheme_name !== "string") {
+    next({
+      status: 400,
+      details: "You must provide a scheme_name",
+      devMessage: "scheme_name must be a 'string'."
+    });
+  } else {
+    res.locals.scheme = {scheme_name};
+    next();
+  }
+};
+
+const stepValidator = (req, res, next) => {
+  const { step_number, instructions } = req.body;
+  const missing = [];
+  if (!step_number || isNaN(step_number)) {
+    missing.push({param: "step_number", type: "number"})
+  }
+  if (!instructions || typeof instructions !== "string") {
+    missing.push({param: "instructions", type: "string"})
+  }
+
+  if (missing.length) next({status:400, details:"You're missing some bits to your body!", params: missing});
+  else {
+    res.locals.step = { step_number, instructions }
+    next();
+  }
+}
+
+router.get("/", (req, res, next) => {
+  schemeService
+    .findAll()
+    .then(schemes => res.json(schemes))
+    .catch(err => next(err));
 });
 
-router.get('/:id', (req, res, next) => {
-  const { id } = req.params;
-
-  Schemes.findById(id)
-  .then(scheme => {
-    if (scheme) {
-      res.json(scheme);
-    } else {
-      res.status(404).json({ message: 'Could not find scheme with given id.' })
-    }
-  })
-  .catch( err => next(err) );
+router.get("/:id", (req, res, next) => {
+  schemeService
+    .findById(req.params.id)
+    .then(scheme => res.json(scheme))
+    .catch(err => next(err));
 });
 
-router.get('/:id/steps', (req, res, next) => {
-  const { id } = req.params;
-
-  Schemes.findSteps(id)
-  .then(steps => {
-    if (steps.length) {
-      res.json(steps);
-    } else {
-      res.status(404).json({ message: 'Could not find steps for given scheme' })
-    }
-  })
-  .catch( err => next(err) );
+router.get("/:id/steps", (req, res, next) => {
+  schemeService
+    .findSteps(req.params.id)
+    .then(steps => res.json(steps))
+    .catch(err => next(err));
 });
 
-router.post('/', (req, res, next) => {
-  const schemeData = req.body;
+router.post("/", bodyValidator, schemeValidator, (req, res, next) => {
 
-  Schemes.add(schemeData)
-  .then(scheme => {
-    res.status(201).json(scheme);
-  })
-  .catch( err => next(err) );
+  schemeService
+    .add(res.locals.scheme)
+    .then(scheme => res.status(201).json(scheme))
+    .catch(err => next(err));
 });
 
-router.post('/:id/steps', (req, res, next) => {
-  const stepData = req.body;
-  const { id } = req.params; 
+router.post("/:id/steps", bodyValidator, stepValidator, (req, res, next) => {
 
-  schemeService.addStep(stepData, id)
-    .then( resp => res.status(201).json(resp) )
-    .catch ( err => next(err) );
+  schemeService
+    .addStep(res.locals.step, req.params.id)
+    .then(resp => res.status(201).json(resp))
+    .catch(err => next(err));
 });
 
-router.put('/:id', (req, res, next) => {
-  const { id } = req.params;
-  const changes = req.body;
+router.put("/:id", bodyValidator, schemeValidator, (req, res, next) => {
 
-  Schemes.findById(id)
-  .then(scheme => {
-    if (scheme) {
-      Schemes.update(changes, id)
-      .then(updatedScheme => {
-        res.json(updatedScheme);
-      });
-    } else {
-      res.status(404).json({ message: 'Could not find scheme with given id' });
-    }
-  })
-  .catch( err => next(err) );
+  schemeService
+    .update(res.locals.scheme, req.params.id)
+    .then(updatedScheme => res.json(updatedScheme))
+    .catch(err => next(err));
 });
 
-router.delete('/:id', (req, res, next) => {
-  const { id } = req.params;
+router.delete("/:id", (req, res, next) => {
 
-  Schemes.remove(id)
-  .then(deleted => {
-    if (deleted) {
-      res.json({ removed: deleted });
-    } else {
-      res.status(404).json({ message: 'Could not find scheme with given id' });
-    }
-  })
-  .catch( err => next(err) );
+  schemeService
+    .remove(req.params.id)
+    .then(deleted => res.json({ removed: deleted }))
+    .catch(err => next(err));
 });
 
 module.exports = router;
