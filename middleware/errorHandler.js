@@ -1,22 +1,22 @@
 module.exports = (err, req, res, next) => {
-    
+
     // If there is an error with the JSON object received, this will write the error
     //     message to the details property :thumbsup:
-    if (!!err && !!err.statusCode) err.details = err.toString();
+    if (!!err.statusCode) err.details = err.toString();
 
     // If The database throws an error automatically, there is no status code
     //     The status will be auto-set to 500, so we will just store the error
     //     as a devMessage to see :thumbsup:
-    if (!!err && !err.status && !err.devMessage) err.devMessage = err.toString();
+    if (!!err.status && !err.devMessage) err.devMessage = err.toString();
 
     const errObj = {
-        status: err && err.status ? err.status : 500,
+        status: err.status ? err.status : 500,
         method: req.method,
         endpoint: req.originalUrl,
-        details: err && err.details ? err.details : "Internal Server Error x_x",
-        devMessage: err && err.devMessage ? err.devMessage : undefined,
-        source: err && err.source ? err.source : undefined,
-        params: err && err.params ? err.params : undefined,
+        details: err.details ? err.details : "Internal Server Error x_x",
+        devMessage: err.devMessage ? err.devMessage : undefined,
+        source: err.source ? err.source : undefined,
+        params: err.params ? err.params : undefined,
     };
 
     if (errObj.status === 500) {
