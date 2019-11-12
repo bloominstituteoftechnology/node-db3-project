@@ -43,6 +43,7 @@ const stepValidator = (req, res, next) => {
   }
 }
 
+// GET all schemes
 router.get("/", (req, res, next) => {
   schemeService
     .findAll()
@@ -50,6 +51,7 @@ router.get("/", (req, res, next) => {
     .catch(err => next(err));
 });
 
+// GET scheme by id
 router.get("/:id", (req, res, next) => {
   schemeService
     .findById(req.params.id)
@@ -57,6 +59,7 @@ router.get("/:id", (req, res, next) => {
     .catch(err => next(err));
 });
 
+// GET steps by scheme_id
 router.get("/:id/steps", (req, res, next) => {
   schemeService
     .findSteps(req.params.id)
@@ -64,32 +67,32 @@ router.get("/:id/steps", (req, res, next) => {
     .catch(err => next(err));
 });
 
+// POST a new scheme
 router.post("/", bodyValidator, schemeValidator, (req, res, next) => {
-
   schemeService
     .add(res.locals.scheme)
     .then(scheme => res.status(201).json(scheme))
     .catch(err => next(err));
 });
 
+// POST a new step
 router.post("/:id/steps", bodyValidator, stepValidator, (req, res, next) => {
-
   schemeService
     .addStep(res.locals.step, req.params.id)
     .then(resp => res.status(201).json(resp))
     .catch(err => next(err));
 });
 
+// PUT an existing scheme
 router.put("/:id", bodyValidator, schemeValidator, (req, res, next) => {
-
   schemeService
     .update(res.locals.scheme, req.params.id)
     .then(updatedScheme => res.json(updatedScheme))
     .catch(err => next(err));
 });
 
+// DELETE an existing scheme
 router.delete("/:id", (req, res, next) => {
-
   schemeService
     .remove(req.params.id)
     .then(deleted => res.json({ removed: deleted }))
