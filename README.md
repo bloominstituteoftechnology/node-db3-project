@@ -95,3 +95,9 @@ Sometimes, in my travels, I find things that I think are worth sharing.
 
 This is one of those times.
 
+Check out [The mark down file for the errorHandler](./errorHandler.md) to see how you can use express's built in error middleware!
+
+And, peruse through the schemes folder. There are two groups here:
+- `scheme-model.js` plus `scheme-router.js`
+- `scheme-model-new.js`, `scheme-router-new.js`, *and* `scheme-service.js`
+The scheme-service file is a little something that can help keep the router and model files cleaner. Check 'em out, and see how they work!
