@@ -2,7 +2,7 @@ const request = require("supertest");
 const express = require("express");
 const schemeRouter = require("../../schemes/scheme-router-new");
 const schemeService = require("../../schemes/scheme-service");
-jest.mock("../../schemes/scheme-service.js");
+// jest.mock("../../schemes/scheme-service.js");
 
 server = express();
 server.use("", schemeRouter);
