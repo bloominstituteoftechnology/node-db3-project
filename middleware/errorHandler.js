@@ -18,7 +18,7 @@ module.exports = (err, req, res, next) => {
         params: err.params ? err.params : undefined,
     };
 
-    if (errObj.status === 500) {
+    if (errObj.status === 500 && process.env.DB_ENV === "development") {
     // A Nice Consoled Message:
     // Create an Error and grab the stack. Add a "\n" because...
     const stackTrace = new Error(errObj.devMessage || errObj.details).stack + "\n";
