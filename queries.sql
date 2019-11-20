@@ -15,12 +15,12 @@ and o.Shipvia = s.id
 
 
 -- Display the name and quantity of the products ordered in order with Id 10251. Sort by ProductName. Shows 3 records.
-select p.productname, p.quantityperunit, e.firstname
+select p.productname, p.quantityperunit
 from product as p
 inner join orderdetail as od on od.productid = p.id
 inner join [order] as o on  od.orderid = o.id
-inner join employee as e on o.employeeid = e.id
 where o.id = '10251'
+order by productname
 
 -- Display the OrderID, Customer's Company Name and the employee's LastName for every order. All columns should be labeled clearly. Displays 16,789 records.
 select o.id, c.companyname, e.lastname
