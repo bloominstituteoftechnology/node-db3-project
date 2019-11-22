@@ -5,26 +5,34 @@ function find () {
 }
 
 function findByID(id) {
-    return db('schemes').where({ id });
+    return db('schemes')
+      .where({ id })
+      .first();
 }
 
 function findSteps(id) {
-    return db('schemes as s')
-      .join('steps as st', 'st.id', 's.id')
-      .select('s.id', 's.scheme_name', 'st.step_number', 'st.instructions')
-      .where({ s_id: id})
-}
+    return db('steps as st')
+      .join('schemes as s', 'st.scheme_id', 's.id')
+      .select('s.scheme_name as Scheme', 'st.step_number as Step', 'st.instructions as Instructions')
+      .where({ scheme_id: id})
+      .orderBy('step');
+};
 
-function add(schemeData) {
-    return db('users').insert(schemeData);
+function add(scheme) {
+    return db('schemes')
+    .insert(scheme);
 }
 
 function update(changes, id) {
-    return db('users').where({ id }).update(changes);
+    return db('schemes')
+    .where({ id })
+    .update(changes);
 }
 
 function remove(id) {
-    return db('schemes').where( { id }).del();
+    return db('schemes')
+      .where( { id })
+      .del();
 }
 
 module.exports = {
