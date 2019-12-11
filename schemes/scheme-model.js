@@ -16,9 +16,6 @@ function find() {
 function findById(id) {
     return db('schemes')
     .where({id})
-    .first()
+    .first() || null
 }
 
-function findsteps(id) {
-
-}
