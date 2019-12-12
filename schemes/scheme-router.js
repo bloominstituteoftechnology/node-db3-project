@@ -5,11 +5,12 @@ const Schemes = require('./scheme-model.js');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  Schemes.find()
+  Schemes.find(req.query)
   .then(schemes => {
     res.json(schemes);
   })
   .catch(err => {
+    console.log("Error GET api/schemes/", err)
     res.status(500).json({ message: 'Failed to get schemes' });
   });
 });
@@ -26,6 +27,7 @@ router.get('/:id', (req, res) => {
     }
   })
   .catch(err => {
+    console.log("Error GET api/schemes/:id", err)
     res.status(500).json({ message: 'Failed to get schemes' });
   });
 });
@@ -42,6 +44,7 @@ router.get('/:id/steps', (req, res) => {
     }
   })
   .catch(err => {
+    console.log("Error GET api/schemes/:id/steps", err)
     res.status(500).json({ message: 'Failed to get steps' });
   });
 });
