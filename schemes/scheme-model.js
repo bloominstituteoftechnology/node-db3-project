@@ -11,30 +11,39 @@ module.exports = {
 
 function find() {
     return db("schemes")
+    .select()
 }
 
-
 function findById(id) {
-    return db("scheme").where({ id }).first()
+    return db("scheme")
+    .where({ id })
+    .first()
 }
 
 function findSteps(id) {
-    return db("steps").where({ id }).first()
-
+    return db("steps")
+    .where({ id })
+    .first()
 }
 
-function add(scheme) {
+async function add(scheme) {
+    const [id] = await db("schemeData")
+    .insert(scheme)
     return db("schemeData")
-
+    .where({ id })
+    .first()
 }
 
-function update(changes, id) {
-    return db("scheme").where({ id }).first()
-
+async function update(changes, id) {
+    return db("scheme")
+    .where({ id })
+    .update(changes)
 }
 
 function remove(id) {   
-    return db("deleted").where({ id }).del()
+    return db("scheme")
+    .where({ id })
+    .del()
 }
 
 // setup to separately test these helpers.
