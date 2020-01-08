@@ -1,4 +1,4 @@
-const db = require("../data/seeds/db-config")
+const db = require("../db-config")
 
 module.exports = {
     find,
@@ -15,7 +15,7 @@ function find() {
 }
 
 function findById(id) {
-    return db("scheme")
+    return db("schemes")
     .where({ id })
     .first()
 }
@@ -26,22 +26,22 @@ function findSteps(id) {
     .first()
 }
 
-async function add(scheme) {
-    const [id] = await db("schemeData")
-    .insert(scheme)
-    return db("schemeData")
+async function add(schemeData) {
+    const [id] = await db("schemes")
+    .insert(schemeData)
+    return db("schemes")
     .where({ id })
     .first()
 }
 
-async function update(changes, id) {
-    return db("scheme")
+function update(changes, id) {
+    return db("schemes")
     .where({ id })
     .update(changes)
 }
 
 function remove(id) {   
-    return db("scheme")
+    return db("schemes")
     .where({ id })
     .del()
 }
