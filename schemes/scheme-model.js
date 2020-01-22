@@ -4,7 +4,8 @@ module.exports = {
   find,
   findById,
   add,
-  update
+  update,
+  remove
 };
 
 // GET all schemes
@@ -43,3 +44,15 @@ function update(changes, id) {
 }
 
 // DELETE
+function remove(id) {
+  console.log(id);
+  return findById(id).then(schemeId => {
+    if (schemeId) {
+      return db('schemes')
+        .where({ id })
+        .del();
+    } else {
+      return null;
+    }
+  });
+}
