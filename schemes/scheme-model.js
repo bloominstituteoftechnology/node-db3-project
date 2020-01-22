@@ -3,7 +3,8 @@ const db = require('../data/db-config');
 module.exports = {
   find,
   findById,
-  add
+  add,
+  update
 };
 
 // GET all schemes
@@ -15,7 +16,13 @@ function find() {
 function findById(id) {
   return db('schemes')
     .where({ id })
-    .first();
+    .then(scheme => {
+      if (scheme) {
+        return scheme[0];
+      } else {
+        return null;
+      }
+    });
 }
 
 // POST
@@ -26,5 +33,13 @@ function add(newData) {
 }
 
 // PUT
+function update(changes, id) {
+  return db('schemes')
+    .where({ id })
+    .update(changes)
+    .then(scheme => {
+      return findById(id);
+    });
+}
 
 // DELETE
