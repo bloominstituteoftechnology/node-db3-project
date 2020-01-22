@@ -3,6 +3,7 @@ const db = require('../data/db-config');
 module.exports = {
   find,
   findById,
+  findSteps,
   add,
   update,
   remove
@@ -24,6 +25,19 @@ function findById(id) {
         return null;
       }
     });
+}
+
+// GET find steps
+function findSteps(id) {
+  return db('steps')
+    .select(
+      'steps.id',
+      'schemes.scheme_name',
+      'steps.step_number',
+      'steps.instructions'
+    )
+    .join('schemes', 'schemes.id', 'steps.scheme_id')
+    .where({ scheme_id: id });
 }
 
 // POST
