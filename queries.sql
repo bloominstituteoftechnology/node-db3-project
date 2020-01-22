@@ -26,3 +26,4 @@ WHERE OrderId = 10251
 SELECT [Order].Id, Customer.CompanyName, Employee.LastName FROM [Order]
 JOIN Customer on Customer.Id = [Order].CustomerId
 JOIN Employee on Employee.Id = [Order].EmployeeId
+
