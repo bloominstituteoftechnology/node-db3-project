@@ -22,8 +22,8 @@ WHERE orderdate < '2012-08-09'
 -- Display the name and quantity of the products ordered in order with Id 10251. Sort by ProductName. Shows 3 records.
 SELECT productname, quantity
 FROM orderdetail
-JOIN product  
-ON productid = product.id
+JOIN product as p 
+ON productid = p.id
 JOIN [order] as o
 ON orderid = o.id
 WHERE o.id = 10251
