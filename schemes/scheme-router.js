@@ -1,20 +1,20 @@
 const express = require('express');
 
-const Schemes = require('./scheme-model.js');
+const Schemes = require('./scheme-model')
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  Schemes.find()
-  .then(schemes => {
-    res.json(schemes);
+router.get('/hubs', (req, res) => {
+  Schemes.list()
+  .then(hubs => {
+    res.json(hubs);
   })
   .catch(err => {
     res.status(500).json({ message: 'Failed to get schemes' });
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/hubs/:id', (req, res) => {
   const { id } = req.params;
 
   Schemes.findById(id)
@@ -26,11 +26,12 @@ router.get('/:id', (req, res) => {
     }
   })
   .catch(err => {
+    
     res.status(500).json({ message: 'Failed to get schemes' });
   });
 });
 
-router.get('/:id/steps', (req, res) => {
+router.get('/hubs/:id/steps', (req, res) => {
   const { id } = req.params;
 
   Schemes.findSteps(id)
@@ -42,12 +43,14 @@ router.get('/:id/steps', (req, res) => {
     }
   })
   .catch(err => {
+    console.log(err)
     res.status(500).json({ message: 'Failed to get steps' });
   });
 });
 
-router.post('/', (req, res) => {
+router.post('/hubs', (req, res) => {
   const schemeData = req.body;
+  console.log(schemeData)
 
   Schemes.add(schemeData)
   .then(scheme => {
@@ -58,12 +61,13 @@ router.post('/', (req, res) => {
   });
 });
 
-router.post('/:id/steps', (req, res) => {
+router.post('hubs/:id/steps', (req, res) => {
   const stepData = req.body;
   const { id } = req.params; 
 
   Schemes.findById(id)
   .then(scheme => {
+    console.log(scheme)
     if (scheme) {
       Schemes.addStep(stepData, id)
       .then(step => {
@@ -78,7 +82,7 @@ router.post('/:id/steps', (req, res) => {
   });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/hubs/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
@@ -98,7 +102,7 @@ router.put('/:id', (req, res) => {
   });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/hubs/:id', (req, res) => {
   const { id } = req.params;
 
   Schemes.remove(id)
@@ -110,6 +114,7 @@ router.delete('/:id', (req, res) => {
     }
   })
   .catch(err => {
+    console.log(err)
     res.status(500).json({ message: 'Failed to delete scheme' });
   });
 });
