@@ -67,6 +67,7 @@ router.post("/:id/steps", (req, res) => {
   Schemes.findById(id)
     .then(scheme => {
       if (scheme) {
+        console.log("steps.post.then...");
         Schemes.addStep(stepData, id).then(step => {
           res.status(201).json(step);
         });

@@ -20,16 +20,15 @@ const add = async newInput => {
 };
 
 const findSteps = id => {
+  /*
   return db("steps")
     .select("st.id", "s.scheme_name", "st.step_number", "st.instructions")
     .join("steps as st", "s.id", "st.scheme_id")
     .where("s.id", "id");
-
-  /*
+    */
   return db("steps")
     .where({ scheme_id: id })
     .select("step_number", "instructions", "scheme_id", "id");
-*/
 };
 
 const update = async (changes, id) => {
@@ -46,11 +45,23 @@ const remove = id => {
     .del();
 };
 
+const addStep = async (stepData, id) => {
+  console.log("addStep", stepData, id);
+  const newStep = {
+    scheme_id: id,
+    step_number: stepData.step_number,
+    instructions: stepData.instructions
+  };
+  await db("steps").insert(newStep);
+  return findSteps(id);
+};
+
 module.exports = {
   remove,
   update,
   findSteps,
   add,
   findById,
-  find
+  find,
+  addStep
 };
