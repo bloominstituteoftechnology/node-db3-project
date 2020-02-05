@@ -20,15 +20,11 @@ const add = async newInput => {
 };
 
 const findSteps = id => {
-  /*
-  return db("steps")
-    .select("st.id", "s.scheme_name", "st.step_number", "st.instructions")
-    .join("steps as st", "s.id", "st.scheme_id")
-    .where("s.id", "id");
-    */
-  return db("steps")
+  return db("steps as st")
+    .join("schemes as sc", "sc.id", "st.scheme_id")
+    .select("st.id", "sc.scheme_name", "st.step_number", "st.instructions")
     .where({ scheme_id: id })
-    .select("step_number", "instructions", "scheme_id", "id");
+    .orderBy("st.step_number");
 };
 
 const update = async (changes, id) => {
