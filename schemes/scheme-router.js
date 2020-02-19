@@ -36,6 +36,9 @@ router.get('/:id/steps', (req, res) => {
   Schemes.findSteps(id)
   .then(steps => {
     if (steps.length) {
+      steps.sort(function(a,b){
+        return a.step_number - b.step_number;
+      })
       res.json(steps);
     } else {
       res.status(404).json({ message: 'Could not find steps for given scheme' })
@@ -63,8 +66,11 @@ router.post('/:id/steps', (req, res) => {
   const { id } = req.params; 
 
   Schemes.findById(id)
+  
   .then(scheme => {
+    
     if (scheme) {
+      
       Schemes.addStep(stepData, id)
       .then(step => {
         res.status(201).json(step);
@@ -104,7 +110,7 @@ router.delete('/:id', (req, res) => {
   Schemes.remove(id)
   .then(deleted => {
     if (deleted) {
-      res.json({ removed: deleted });
+      res.json(deleted);
     } else {
       res.status(404).json({ message: 'Could not find scheme with given id' });
     }
