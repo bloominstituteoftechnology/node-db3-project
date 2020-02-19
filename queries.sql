@@ -24,3 +24,6 @@ ORDER BY Product.ProductName;
 SELECT [Order].Id as 'Order Id', Customer.CompanyName as 'Customer Company Name', Employee.LastName as 'Employee Last Name'
 FROM [Order], Customer, Employee
 Where [Order].CustomerId = Customer.Id AND [Order].EmployeeId = Employee.Id;
+
+
+STUFF
