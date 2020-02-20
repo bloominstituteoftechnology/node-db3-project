@@ -51,8 +51,9 @@ router.post('/', (req, res) => {
 
   Schemes.add(schemeData)
   .then(scheme => {
-    res.status(201).json(scheme);
-  })
+    console.log('asdsadsa', scheme)
+     res.status(201).json(scheme);
+   })
   .catch (err => {
     res.status(500).json({ message: 'Failed to create new scheme' });
   });
@@ -67,6 +68,7 @@ router.post('/:id/steps', (req, res) => {
     if (scheme) {
       Schemes.addStep(stepData, id)
       .then(step => {
+        console.log('asdsadsa', step)
         res.status(201).json(step);
       })
     } else {
