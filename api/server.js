@@ -4,7 +4,5 @@ const express = require('express');
 
   const server = express();
 
-  configureMiddleware(server);
-
   server.use('/api', apiRouter); // after the api endpoint is reached, activate "apiRouter"
   module.exports = server;
