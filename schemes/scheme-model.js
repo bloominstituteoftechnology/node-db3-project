@@ -21,20 +21,33 @@ function findById(id) {
 }
 
 function findSteps(id) {
-  return db("steps")
-    .join("schemes", "schemes.id", "steps.scheme_id")
-    .select("schemes.scheme_name", "steps.step_number", "steps.instructions")
-    .where({ scheme_name });
+  return db("schemes")
+    .join("steps", "schemes.id", "steps.scheme_id")
+    .select(
+      "schemes.id",
+      "schemes.scheme_name",
+      "steps.step_number",
+      "steps.instructions"
+    )
+    .where("schemes.id", id);
+  // .orderBy("steps.step_number", "asc");
 }
 
 function add(scheme) {
-  return db("schemes").insert(scheme, "id");
+  return db("schemes")
+    .insert(scheme)
+    .then(([id]) => {
+      return findById(id);
+    });
 }
 
 function update(id, changes) {
   return db("schemes")
     .where({ id })
-    .update(changes);
+    .update(changes)
+    .then(changes => {
+      return changes;
+    });
 }
 
 function remove(id) {
