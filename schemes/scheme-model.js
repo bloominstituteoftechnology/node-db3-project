@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-const db = require("../data/db-config.js.js");
+const db = require("../data/db-config.js");
 
 module.exports = {
   find,
@@ -21,10 +21,10 @@ function findById(id) {
 }
 
 function findSteps(id) {
-  return db("schemes")
+  return db("steps")
     .join("schemes", "schemes.id", "steps.scheme_id")
     .select("schemes.scheme_name", "steps.step_number", "steps.instructions")
-    .where("scheme_name", name);
+    .where({ scheme_name });
 }
 
 function add(scheme) {
