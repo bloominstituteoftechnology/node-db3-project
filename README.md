@@ -1,6 +1,6 @@
 # Multi-Table Queries and Database Helpers
 
-## Topics.
+## Topics..
 
 
 -   Joins
