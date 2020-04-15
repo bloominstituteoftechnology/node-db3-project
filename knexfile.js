@@ -9,10 +9,10 @@ module.exports = {
       filename: './data/schemes.db3',
     },
     migrations: {
-      directory: './data/migrations'
+      directory: './data/migrations',
     },
     seeds: {
-      directory: './data/seeds'
+      directory: './data/seeds',
     },
     // add the following
     pool: {
@@ -21,5 +21,5 @@ module.exports = {
         conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
       },
     },
-  }, 
+  },
 };
