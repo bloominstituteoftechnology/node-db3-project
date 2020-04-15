@@ -11,8 +11,10 @@ function findById(id){
 function findSteps(id){
     return db('steps as st' )
     .join('schemes as sc', 'sc.id', 'st.scheme_id')
-    .select('st.id', 'sc.scheme_name', 'st.instructions')
-    .where({scheme_id: id});
+    .where('st.scheme_id', id)
+    .select('st.id',"st.step_number", 'sc.scheme_name', 'st.instructions')
+    .orderBy("st.step_number", "asc");
+    
 };
 function add (dataToInsert){
     return db('schemes').insert(dataToInsert);
@@ -20,19 +22,19 @@ function add (dataToInsert){
 function update(change, id){
     return db('schemes').where({id}).update(change);
 };
-function addStep(step, id){
+function addStep(step, scheme_id){
     console.log("step", step)
     return db('steps as st' )
     .join('schemes as sc', 'sc.id', 'st.scheme_id')
     .select('st.id', 'sc.scheme_name', 'st.instructions')
-    .where({scheme_id: id})
+    .where({id: scheme_id})
     .insert(step);
 };
+
 function remove(id){
     return db('schemes')
     .where({id}).del();
 };
-
 
 module.exports ={
     find,
@@ -42,5 +44,4 @@ module.exports ={
     update,
     remove,
     addStep
-
 };

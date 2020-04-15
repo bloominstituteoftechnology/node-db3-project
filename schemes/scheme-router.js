@@ -4,6 +4,7 @@ const Schemes = require('./scheme-model.js');
 
 const router = express.Router();
 
+// gets master list of schemes (without steps)
 router.get('/', (req, res) => {
   Schemes.find()
   .then(schemes => {
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
   });
 });
 
+// gets a single scheme
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -30,6 +32,8 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// Returns all the steps of a specific scheme
+// gets all steps for a given scheme, ordered correctly
 router.get('/:id/steps', (req, res) => {
   const { id } = req.params;
 
@@ -46,6 +50,7 @@ router.get('/:id/steps', (req, res) => {
   });
 });
 
+//adds a new scheme
 router.post('/', (req, res) => {
   const schemeData = req.body;
 
@@ -58,7 +63,14 @@ router.post('/', (req, res) => {
   });
 });
 
-router.post('/:id/steps', (req, res) => {
+//  reques body form
+//  {
+// 	   "scheme_id":1,
+//     "step_number":"2",
+//     "instructions": "no instruction"
+//  }
+//  Adds a new step for a specific scheme
+router.post('/:id/addstep', (req, res) => {
   const stepData = req.body;
   const { id } = req.params; 
 
@@ -78,6 +90,7 @@ router.post('/:id/steps', (req, res) => {
   });
 });
 
+//updates a given scheme
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
@@ -98,6 +111,7 @@ router.put('/:id', (req, res) => {
   });
 });
 
+//removes a given scheme and all associated steps
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
