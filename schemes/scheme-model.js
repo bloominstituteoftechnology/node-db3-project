@@ -13,7 +13,7 @@ function find() {
     //
     return db("schemes as s")
     // .join("steps as st", "s.id", "st.scheme_id")
-    .select("*")
+    .select()
     // .distinct();
     // s.id", "s.scheme_name
 }
@@ -22,18 +22,20 @@ function find() {
 
 function findById(id) {
     return db("schemes")
-            .where({id: id})
+            .where({ id })
             .first()
+            
+            
             
 }
 
-    function findSteps(id) {
+    function findSteps(scheme_id) {
         return db("steps as st")
-            .join("schemes as s", "s.id", "st.scheme_id")
-            .select("st.scheme_id", "st.step_number", "st.instructions")
-            .where({ scheme_id: id })
+            // .join("schemes as s", "s.id", "st.scheme_id")
+            .select()
+            .where({ scheme_id: scheme_id })
     }
-    function add(){
+    function add(scheme){
         return db("schemes")
           .insert(scheme, "id")
           .then(([id]) => {
@@ -41,7 +43,7 @@ function findById(id) {
           });
       }
     
-    function update(id, changes) {
+    function update(changes, id) {
         return db("schemes")
           .where({ id })
           .update(changes)
