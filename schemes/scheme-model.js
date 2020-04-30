@@ -1,5 +1,12 @@
 const db = require("../data/db-config");
 
+module.exports = {
+  find,
+  findById,
+  findSteps,
+  add,
+};
+
 function find() {
   return db("schemes");
 }
@@ -23,9 +30,3 @@ async function add(scheme) {
 }
 
 //MALANI  GRACE TULLOCH 5
-
-module.exports = {
-  find,
-  findById,
-  findSteps,
-};
