@@ -1,12 +1,5 @@
 const db = require("../data/db-config");
 
-module.exports = {
-  find,
-  findById,
-  findSteps,
-  add,
-};
-
 function find() {
   return db("schemes");
 }
@@ -29,4 +22,16 @@ async function add(scheme) {
   return findById(id);
 }
 
+function update(changes, id) {
+  return db("schemes").where({ id }).update(changes, "*");
+}
+
 //MALANI  GRACE TULLOCH 5
+
+module.exports = {
+  find,
+  findById,
+  findSteps,
+  add,
+  update,
+};
