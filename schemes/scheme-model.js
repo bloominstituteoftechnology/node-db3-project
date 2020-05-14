@@ -90,9 +90,5 @@ function update(changes, id) {
 // }
 
 function remove(id) {
-  console.log({ id });
-  return db("schemes as sc")
-    .where({ id })
-    .select("sc.id", "sc.scheme_name")
-    .del();
+  return db("schemes as sc").where({ id }).del();
 }
