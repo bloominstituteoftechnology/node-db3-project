@@ -8,7 +8,21 @@ function findById(id) {
   return db('schemes').where({ id });
 }
 
-// findSteps('id)
+// function findSteps(id) {
+//   return db('steps as s')
+//     .select('s.id', 'schemes.scheme_name', 's.step_number', 's.instructions')
+//     .join('schemes as sch', 'sch.id', 's.scheme_id')
+//     .where( 'scheme_id' , id )
+//     .orderBy('s.step_number', 'asc');
+// }
+
+function findSteps(id) {
+  return db('steps')
+      .select('steps.id', 'schemes.scheme_name', 'steps.step_number', 'steps.instructions')
+      .join('schemes', 'steps.scheme_id', 'schemes.id')
+      .where('schemes.id', id)
+      .orderBy('steps.step_number', 'asc');
+}
 
 function add(schemeData) {
   return db('schemes').insert(schemeData);
@@ -25,7 +39,7 @@ function remove(id) {
 module.exports = {
   find, 
   findById,
-  // findSteps,
+  findSteps,
   add, 
   update, 
   remove
