@@ -10,7 +10,8 @@ module.exports = {
 	findSteps,
 	add,
 	update,
-	remove
+    remove,
+    addStep
 };
 
 function find() {
@@ -31,7 +32,8 @@ function findSteps(id) {
 			'steps.step_number',
 			'steps.instructions'
 		)
-		.where({ schemesId: id });
+        .where({ schemesId: id })
+        .orderBy('steps.step_number')
 }
 
 function add(scheme) {
@@ -46,6 +48,28 @@ function update(changes, id) {
 	console.log('update');
 	return db('schemes').where({ id }).update(changes);
 }
+
+// stretch
+// POST /api/schemes/:id/addStep to test this method.
+function addStep(step, scheme_id) {
+      return db('steps as st')
+        .join('schemes as sc', 'sc.id', 'st.scheme_id')
+        .select('st.id', 'sc.scheme_name', 'st.instructions')
+        .where({ id: scheme_id })
+        .insert({...step, scheme_id})
+    }
+
+// test
+// function addStep(step, scheme_id) {
+//     return db('steps as st')
+//       .insert({...step, scheme_id})
+//       .then((id) => {
+//           return db('steps as st')
+//         .where({'st.id': id })
+//         .join('schemes as sc', 'sc.id', 'st.scheme_id')
+//         .select('st.id', 'sc.scheme_name', 'st.instructions', 'st.step_number')
+//       })  
+//   }
 
 function remove(id) {
 	return db('schemes').where('id', id).del();
