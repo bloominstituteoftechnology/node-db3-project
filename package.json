@@ -18,11 +18,11 @@
     "homepage": "https://github.com/LambdaSchool/node-db3-challenge#readme",
     "dependencies": {
         "express": "^4.17.1",
-        "knex": "^0.20.8",
+        "knex": "^0.20.15",
         "knex-cleaner": "^1.3.0",
-        "sqlite3": "^4.1.1"
+        "sqlite3": "^4.2.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.2"
+        "nodemon": "^2.0.4"
     }
 }

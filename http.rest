@@ -1,0 +1,28 @@
+// GET all request
+GET http://localhost:5000/
+
+
+###
+//GET All Steps
+GET http://localhost:5000/steps
+
+###
+//GET by :id
+GET http://localhost:5000/3
+
+###
+//GET Steps by :id
+GET http://localhost:5000/2/steps
+
+###
+//POST
+POST http://localhost:5000/
+Content-Type: application/json
+
+{
+    "scheme_name": "Test new Entry"
+}
+
+###
+//DELETE by :id
+DELETE http://localhost:5000/1

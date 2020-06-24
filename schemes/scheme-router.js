@@ -1,9 +1,11 @@
 const express = require('express');
-
 const Schemes = require('./scheme-model.js');
 
 const router = express.Router();
+router.use(express.urlencoded({ extended: true }));
+router.use(express.json());
 
+//✅
 router.get('/', (req, res) => {
   Schemes.find()
   .then(schemes => {
@@ -13,7 +15,18 @@ router.get('/', (req, res) => {
     res.status(500).json({ message: 'Failed to get schemes' });
   });
 });
+// find all steps ✅
+router.get('/steps', (req, res) => {
+  Schemes.findAllSteps()
+  .then(schemes => {
+    res.json(schemes);
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get schemes' });
+  });
+});
 
+//✅
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -29,6 +42,7 @@ router.get('/:id', (req, res) => {
     res.status(500).json({ message: 'Failed to get schemes' });
   });
 });
+
 
 router.get('/:id/steps', (req, res) => {
   const { id } = req.params;
@@ -46,6 +60,7 @@ router.get('/:id/steps', (req, res) => {
   });
 });
 
+//✅
 router.post('/', (req, res) => {
   const schemeData = req.body;
 
@@ -57,6 +72,7 @@ router.post('/', (req, res) => {
     res.status(500).json({ message: 'Failed to create new scheme' });
   });
 });
+
 
 router.post('/:id/steps', (req, res) => {
   const stepData = req.body;
@@ -78,6 +94,7 @@ router.post('/:id/steps', (req, res) => {
   });
 });
 
+
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
@@ -98,6 +115,7 @@ router.put('/:id', (req, res) => {
   });
 });
 
+//✅
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
