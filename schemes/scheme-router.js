@@ -43,7 +43,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-
+//✅ -- Not sure What's suppose to happen based off of instructions.  But this works. 
 router.get('/:id/steps', (req, res) => {
   const { id } = req.params;
 
@@ -94,7 +94,7 @@ router.post('/:id/steps', (req, res) => {
   });
 });
 
-
+//✅
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;

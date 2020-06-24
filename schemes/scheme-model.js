@@ -28,10 +28,13 @@ function findById(id){
         .first()
 }
 
+//✅ -- Not sure What's suppose to happen based off of instructions.  But this works. 
 function findSteps(id){
     return db("steps")
-        .where({id})
-        .first()
+        .select("steps.id", "schemes.scheme_name", "steps.step_number", "steps.instructions" )
+        .join("schemes")
+        .orderBy("steps.step_number")
+        .where("schemes.id", id)
 }
 
 //✅
@@ -47,11 +50,7 @@ function add(payload){
 
 function addStep(){}
 
-// -   `update(changes, id)`:
-//     -   Expects a changes object and an `id`.
-//     -   Updates the scheme with the given id.
-//     -   Resolves to the newly updated scheme object.
-
+//✅
 function update(payload, id){
     return db("schemes")
         .update(payload)

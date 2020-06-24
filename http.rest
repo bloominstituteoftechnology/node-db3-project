@@ -1,28 +1,50 @@
-// GET all request
+// GET all request ✅
 GET http://localhost:5000/
 
 
 ###
-//GET All Steps
+//GET All Steps✅
 GET http://localhost:5000/steps
 
 ###
-//GET by :id
+//GET by :id✅
 GET http://localhost:5000/3
 
 ###
+//✅ -- Not sure What's suppose to happen based off of instructions.  But this works. 
 //GET Steps by :id
 GET http://localhost:5000/2/steps
 
 ###
-//POST
+//POST✅
 POST http://localhost:5000/
 Content-Type: application/json
 
 {
-    "scheme_name": "Test new Entry"
+    "scheme_name": "Test another new entry x"
 }
 
 ###
-//DELETE by :id
-DELETE http://localhost:5000/1
+
+###
+//Post steps by:id
+POST http://localhost:5000/2/localhost:5000/steps
+Content-Type: application/json
+
+{
+    "scheme_name": "Test another new entry x"
+}
+
+###
+//PUT by :id✅
+PUT  http://localhost:5000/2
+Content-Type: application/json
+
+{
+    "scheme_name": "Updated User # again sss"
+}
+
+###
+
+//DELETE by :id✅
+DELETE http://localhost:5000/8
