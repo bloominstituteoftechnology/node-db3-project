@@ -19,7 +19,7 @@ function findById(id){
 }
 
 
-
+// this function works
 function findSteps(scheme_id){
     return db()
     .select('*', 'scheme_name')
