@@ -40,6 +40,11 @@ function remove(id) {
         .del()
 }
 
+function addStep(step, id) {
+    return db('steps')
+        .insert({...step, scheme_id: id})
+}
+
 module.exports = {
     find, findById, findSteps, add, addStep, update, remove
 }
