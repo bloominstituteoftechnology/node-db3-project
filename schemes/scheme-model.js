@@ -12,6 +12,38 @@ function find(){
         .select("id", "scheme_name")
 }
 
+function findById(id){
+    return db("schemes")
+        .select("id", "scheme_name")
+        .where("id", id)
+}
+
+function findSteps(id){
+    return db("schemes as s")
+        .innerJoin("steps as p", "p.scheme_id", "s.id")
+        .where("s.id", id)
+        .select("s.id", "s.scheme_name","p.step_number", "p.instructions")
+}
+
+function add(scheme){
+    return db("schemes")
+        .insert(scheme)
+        .then(id => findById(id))
+}
+
+function update(changes, id){
+    return db("schemes")
+        .where("id",id)
+        .update(changes)
+        .then(()=>findById(id))
+}
+
+function remove(id){
+    return db("schemes")
+        .delete()
+        .where("id", id)
+}
+
 module.exports = {
-    find
+    find, findById, findSteps, add, update, remove
 }
