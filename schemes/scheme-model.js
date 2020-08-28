@@ -21,11 +21,10 @@ function add(scheme) {
         .insert(scheme)
 }
 
-function findPostsByUserID(userID) {
-	return db("posts as p")
-		.innerJoin("users as u", "u.id", "p.user_id")
-		.where("p.user_id", userID)
-		.select("p.id", "p.contents", "u.username")
+function update(changes, id) {
+    return db("schemes")
+        .where("schemes.id", id)
+        .update(changes)
 }
 
 module.exports = {
@@ -33,4 +32,5 @@ module.exports = {
     findById,
     findSteps,
     add,
+    update,
 }
