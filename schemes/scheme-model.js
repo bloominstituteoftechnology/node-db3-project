@@ -6,6 +6,7 @@ function find() {
 
 function findById(id) {
     return db("schemes")
+        .where("schemes.id", id)
 }
 
 function findSteps(id) {
@@ -24,5 +25,6 @@ function findPostsByUserID(userID) {
 
 module.exports = {
     find,
+    findById,
     findSteps,
 }
