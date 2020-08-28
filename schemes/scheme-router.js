@@ -5,6 +5,7 @@ const Schemes = require('./scheme-model.js');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+  
   Schemes.find()
   .then(schemes => {
     res.json(schemes);
@@ -32,9 +33,10 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/steps', (req, res) => {
   const { id } = req.params;
-
+  
   Schemes.findSteps(id)
   .then(steps => {
+    console.log("steps")
     if (steps.length) {
       res.json(steps);
     } else {
