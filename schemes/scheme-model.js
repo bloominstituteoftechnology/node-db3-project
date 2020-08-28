@@ -16,6 +16,11 @@ function findSteps(id) {
         .orderBy("steps.step_number")
 }
 
+function add(scheme) {
+    return db("schemes")
+        .insert(scheme)
+}
+
 function findPostsByUserID(userID) {
 	return db("posts as p")
 		.innerJoin("users as u", "u.id", "p.user_id")
@@ -27,4 +32,5 @@ module.exports = {
     find,
     findById,
     findSteps,
+    add,
 }
