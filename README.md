@@ -1,13 +1,11 @@
-# Multi-Table Queries and Database Helpers
+# Node DB3 Project Starter Code
 
-## Topics
+### Task 1: Project Setup
 
--   Joins
--   Database Queries
--   Knex Queries
--   Modular Code
+- **Fork** and **Clone** this repository.
+- **CD into the folder** where you cloned the repository.
 
-## Assignment
+### Task 2a: MVP
 
 For this lab you will
 
@@ -79,7 +77,13 @@ The following endpoints are available to test the functionality of the model met
 -   `PUT /api/schemes:id` - updates a given scheme
 -   `DELETE /api/schemes/:id` - removes a given scheme and all associated steps
 
-## Stretch Problems
+### Task 2b: Exit Ticket
+
+Once you begin, you will have 15 minutes to answer the questions [here](https://app.codesignal.com/public-test/B5tbw4SrosyNZj7wR/88wSK9kqh7gBqk).
+
+The completion of these questions is mandatory for MVP. However, passing the quiz doesn't affect your standing as a Lambda School student whatsoever. This is Lambda School testing itself! Please answer honestly and to the best of your ability without using external references.
+
+### Task 3: Stretch Problems
 
 -   In [SQL Try Editor at W3Schools.com](https://www.w3schools.com/Sql/tryit.asp?filename=trysql_select_top):
     -   Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 8 records.
@@ -87,3 +91,8 @@ The following endpoints are available to test the functionality of the model met
 -   Add the following method to your API
     -   `addStep(step, scheme_id)`: This method expects a step object and a scheme id. It inserts the new step into the database, correctly linking it to the intended scheme.
     -   You may use `POST /api/schemes/:id/addStep` to test this method.
+
+## Submission Format
+* [ ] Submit a Pull-Request to merge `<firstName-lastName>` Branch into `main` (student's  Repo). **Please don't merge your own pull request**
+* [ ] Fill out your module retrospective form [here](https://forms.lambdaschool.com/module-retrospective) with a link to your PR
+
