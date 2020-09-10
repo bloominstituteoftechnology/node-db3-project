@@ -30,6 +30,8 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// Pending -> 
+
 router.get('/:id/steps', (req, res) => {
   const { id } = req.params;
 
@@ -58,10 +60,12 @@ router.post('/', (req, res) => {
   });
 });
 
+// Pending ->
+
 router.post('/:id/steps', (req, res) => {
   const stepData = req.body;
   const { id } = req.params; 
-
+  
   Schemes.findById(id)
   .then(scheme => {
     if (scheme) {
