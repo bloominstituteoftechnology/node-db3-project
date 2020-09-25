@@ -1,11 +1,18 @@
 # Node DB3 Project Starter Code
 
-### Task 1: Project Setup
+## Instructions
 
-- **Fork** and **Clone** this repository.
-- **CD into the folder** where you cloned the repository.
+### Task 1: Set Up The Project With Git
 
-### Task 2a: MVP
+Follow these steps to set up and work on your project:
+
+- [ ] Create a forked copy of this project.
+- [ ] Clone your OWN version of the repository (Not Lambda's by mistake!).
+- [ ] Create a new branch: git checkout -b `<firstName-lastName>`.
+- [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
+- [ ] Push commits: git push -u origin `<firstName-lastName>`.
+
+### Task 2: Minimum Viable Product
 
 For this lab you will
 
@@ -77,12 +84,6 @@ The following endpoints are available to test the functionality of the model met
 -   `PUT /api/schemes:id` - updates a given scheme
 -   `DELETE /api/schemes/:id` - removes a given scheme and all associated steps
 
-### Task 2b: Exit Ticket
-
-Once you begin, you will have 15 minutes to answer the questions [here](https://app.codesignal.com/public-test/B5tbw4SrosyNZj7wR/88wSK9kqh7gBqk).
-
-The completion of these questions is mandatory for MVP. However, passing the quiz doesn't affect your standing as a Lambda School student whatsoever. This is Lambda School testing itself! Please answer honestly and to the best of your ability without using external references.
-
 ### Task 3: Stretch Problems
 
 -   In [SQL Try Editor at W3Schools.com](https://www.w3schools.com/Sql/tryit.asp?filename=trysql_select_top):
@@ -92,7 +93,9 @@ The completion of these questions is mandatory for MVP. However, passing the qui
     -   `addStep(step, scheme_id)`: This method expects a step object and a scheme id. It inserts the new step into the database, correctly linking it to the intended scheme.
     -   You may use `POST /api/schemes/:id/addStep` to test this method.
 
-## Submission Format
-* [ ] Submit a Pull-Request to merge `<firstName-lastName>` Branch into `main` (student's  Repo). **Please don't merge your own pull request**
-* [ ] Fill out your module retrospective form [here](https://forms.lambdaschool.com/module-retrospective) with a link to your PR
+## Submission format
+
+Follow these steps for completing your project.
+
+- [ ] Submit a pull request to merge <firstName-lastName> Branch into master (student's  Repo). **Please don't merge your own pull request**
 
