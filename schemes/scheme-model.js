@@ -16,7 +16,7 @@ const findSteps = id => {
       scheme_id: id
     })
     .orderBy("s.step_number")
-}
+};
 
 const add = scheme => db("schemes").insert(scheme);
 
