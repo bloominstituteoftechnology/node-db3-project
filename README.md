@@ -6,11 +6,11 @@
 
 Follow these steps to set up and work on your project:
 
-- [ ] Create a forked copy of this project.
-- [ ] Clone your OWN version of the repository (Not Lambda's by mistake!).
-- [ ] Create a new branch: git checkout -b `<firstName-lastName>`.
-- [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
-- [ ] Push commits: git push -u origin `<firstName-lastName>`.
+- [ x] Create a forked copy of this project.
+- [ x] Clone your OWN version of the repository (Not Lambda's by mistake!).
+- [ x] Create a new branch: git checkout -b `<firstName-lastName>`.
+- [ x] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
+- [ x] Push commits: git push -u origin `<firstName-lastName>`.
 
 ### Task 2: Minimum Viable Product
 
@@ -19,7 +19,7 @@ For this lab you will
 -   write SQL statements against the `northwind.db3` database. Once you have the correct SQL Statement for each query, write it inside the _queries.sql_ file under the corresponding comment.
 -   write the db helper methods for the `schemes` resource in `./schemes/scheme-model.js`
 
-### Multi Table Queries
+### MULTI TABLE QUERIES
 
 Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and execute the following queries:
 
