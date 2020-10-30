@@ -3,6 +3,8 @@ const db = require("../kconfig")
 module.exports = {
     find,
     findById,
+    update,
+    add,
 }
 // -   `find()`:
 // -   Calling find returns a promise that resolves to an array of all schemes in the database.
@@ -30,10 +32,28 @@ function findById(id) {
 // -   Inserts scheme into the database.
 // -   Resolves to the newly inserted scheme, including `id`.
 
+function add( schemes ) {
+    return db("schemes")
+             .insert(schemes)
+             .then( ([id]) => {
+                 return findById(id)
+             })
+}
+
 // -   `update(changes, id)`:
 // -   Expects a changes object and an `id`.
 // -   Updates the scheme with the given id.
 // -   Resolves to the newly updated scheme object.
+//.....Updates return a count 
+
+function update( id, changes) {
+    return db("schemes")
+             .where({ id })
+             .update(changes)
+             .then( () => {
+                 return findById(id)
+             })
+}
 
 // -   `remove(id)`:
 // -   Removes the scheme object with the provided id.
