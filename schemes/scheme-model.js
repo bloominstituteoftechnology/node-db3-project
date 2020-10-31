@@ -3,8 +3,10 @@ const db = require("../kconfig")
 module.exports = {
     find,
     findById,
+    findSteps,
     update,
     add,
+    remove,
 }
 // -   `find()`:
 // -   Calling find returns a promise that resolves to an array of all schemes in the database.
@@ -26,7 +28,13 @@ function findById(id) {
 // -   Expects a scheme `id`.
 // -   Resolves to an array of all correctly ordered step for the given scheme: `[ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ]`.
 // -   This array should include the `scheme_name` _not_ the `scheme_id`.
-
+function findSteps(id) { 
+    return db("steps as st")
+            .join("schemes as s", "st.scheme_id", "s.id" )
+            .select(["st.step_number","st.instructions", "s.scheme_name"])
+            .where({ scheme_id : id })
+            .orderBy("step_number")
+}
 // -   `add(scheme)`:
 // -   Expects a scheme object.
 // -   Inserts scheme into the database.
@@ -46,7 +54,7 @@ function add( schemes ) {
 // -   Resolves to the newly updated scheme object.
 //.....Updates return a count 
 
-function update( id, changes) {
+function update( changes, id) {
     return db("schemes")
              .where({ id })
              .update(changes)
@@ -60,3 +68,14 @@ function update( id, changes) {
 // -   Resolves to the removed scheme
 // -   Resolves to `null` on an invalid id.
 // -   (Hint: Only worry about removing the `scheme`. The database is configured to automatically remove all associated steps.)
+
+function remove(id) {
+    if (!find) {
+        res.json( {message:"Cannot find Id"})
+    }else {
+        return db("schemes")
+                    .where({ id })
+                    .del() 
+
+    }
+}
