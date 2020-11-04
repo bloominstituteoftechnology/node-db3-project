@@ -17,7 +17,8 @@ Follow these steps to set up and work on your project:
 For this project you will
 
 - write SQL statements against the `northwind.db3` database. Once you have the correct SQL Statement for each query, write it inside the _queries.sql_ file under the corresponding comment.
-- write the db helper methods for the `schemes` resource in `./schemes/scheme-model.js`
+- configure Knex by creating a `db-config.js` file that consumes the `knexfile.js`.
+- write the db helper methods for the `schemes` resource in `./schemes/scheme-model.js`.
 
 ### Multi Table Queries
 
@@ -37,8 +38,8 @@ Write helpers methods in `./schemes/scheme-model.js` that match the following sp
   - No steps are included.
 - `findById(id)`:
   - Expects a scheme `id` as its only parameter.
-  - Resolve to a single scheme object.
-  - On an invalid `id`, resolves to `null`.
+  - Resolve to a _single_ scheme object.
+  - On an invalid `id`, resolves to `null`, perhaps by doing `if (!schemaObject) return Promise.resolve(null)`.
 - `findSteps(id)`:
   - Expects a scheme `id`.
   - Resolves to an array of all correctly ordered step for the given scheme: `[ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ]`.
