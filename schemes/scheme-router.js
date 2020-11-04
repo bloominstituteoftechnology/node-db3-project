@@ -65,13 +65,13 @@ router.post('/:id/steps', (req, res) => {
   Schemes.findById(id)
     .then(scheme => {
       if (scheme) {
-        Schemes.addStep(stepData, id)
-          .then(step => {
-            res.status(201).json(step);
-          })
+        return Schemes.addStep(stepData, id);
       } else {
         res.status(404).json({ message: 'Could not find scheme with given id.' })
       }
+    })
+    .then(step => {
+      res.status(201).json(step);
     })
     .catch(err => {
       res.status(500).json({ message: 'Failed to create new step' });
@@ -85,13 +85,13 @@ router.put('/:id', (req, res) => {
   Schemes.findById(id)
     .then(scheme => {
       if (scheme) {
-        Schemes.update(changes, id)
-          .then(updatedScheme => {
-            res.json(updatedScheme);
-          });
+        return Schemes.update(changes, id);
       } else {
         res.status(404).json({ message: 'Could not find scheme with given id' });
       }
+    })
+    .then(updatedScheme => {
+      res.json(updatedScheme);
     })
     .catch(err => {
       res.status(500).json({ message: 'Failed to update scheme' });
