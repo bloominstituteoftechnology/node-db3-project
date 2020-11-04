@@ -5,10 +5,12 @@ module.exports = {
     find() {
         return db('schemes')
     }
+
     findById(id) {
         return db('schemes')
         .where({ id: id }).first()
     }
+
     findSteps(id) {
         return db("schemes")
         .join("steps", "steps.scheme_id", "schemes.id")
@@ -22,11 +24,13 @@ module.exports = {
         .where({"schemes.id": id})
         .orderBy("steps.step_number");
     }
+
     add(scheme) {
-        return db('scheme')
+        return db('schemes')
         .insert(scheme)
         .then((id) => {
-            return findById(id)
+            return db('schemes')
+        .where({ id: id }).first()
         })
         .catch((err) => {
             return null.
