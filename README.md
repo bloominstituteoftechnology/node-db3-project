@@ -20,7 +20,7 @@ For this project you will
 - configure Knex by creating a `db-config.js` file that consumes the `knexfile.js`.
 - write the db helper methods for the `schemes` resource in `./schemes/scheme-model.js`.
 
-### Multi Table Queries
+### Multi Table Queries.
 
 Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and execute the following queries:
 
