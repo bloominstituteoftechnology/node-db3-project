@@ -8,9 +8,9 @@ Follow these steps to set up and work on your project:
 
 - [ ] Create a forked copy of this project.
 - [ ] Clone your OWN version of the repository (Not Lambda's by mistake!).
-- [ ] Create a new branch: git checkout -b `<firstName-lastName>`.
+- [ ] Create a new branch: `git checkout -b <firstName-lastName>`.
 - [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
-- [ ] Push commits: git push -u origin `<firstName-lastName>`.
+- [ ] Push commits: git `push origin <firstName-lastName>`.
 
 ### Task 2: Minimum Viable Product
 
@@ -18,11 +18,13 @@ For this project you will
 
 - write SQL statements against the `northwind.db3` database. Once you have the correct SQL Statement for each query, write it inside the _queries.sql_ file under the corresponding comment.
 - configure Knex by creating a `db-config.js` file that consumes the `knexfile.js`.
-- write the db helper methods for the `schemes` resource in `./schemes/scheme-model.js`.
+- write the db helper methods for the `schemes` resource in `./api/schemes/scheme-model.js`.
 
 ### Multi Table Queries
 
 Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and execute the following queries:
+
+(Write the queries inside `./queries.sql`)
 
 - Display the ProductName and CategoryName for all products in the database. Returns 77 records.
 - Display the order Id and shipper CompanyName for all orders placed before August 9 2012. Returns 429 records.
@@ -31,7 +33,7 @@ Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and exe
 
 ### Database Methods
 
-Write helpers methods in `./schemes/scheme-model.js` that match the following specifications:
+Write helpers methods in `./api/schemes/scheme-model.js` that match the following specifications:
 
 - `find()`:
   - Calling find returns a promise that resolves to an array of all schemes in the database.
@@ -98,4 +100,4 @@ The following endpoints are available to test the functionality of the model met
 
 Follow these steps for completing your project.
 
-- [ ] Submit a pull request to merge `<firstName-lastName>` Branch into master (student's Repo). **Please don't merge your own pull request**
+- [ ] Submit to Canvas a pull request to merge `<firstName-lastName>` Branch into master (student's Repo). **Please don't merge your own pull request**
