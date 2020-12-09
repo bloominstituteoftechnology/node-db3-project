@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
       res.json(schemes);
     })
     .catch(err => {
-      res.status(500).json({ message: 'Failed to get schemes' });
+      res.status(500).json({ message: err.message });
     });
 });
 
@@ -94,7 +94,7 @@ router.put('/:id', (req, res) => {
       res.json(updatedScheme);
     })
     .catch(err => {
-      res.status(500).json({ message: 'Failed to update scheme' });
+      res.status(500).json({ message: err.message });
     });
 });
 
