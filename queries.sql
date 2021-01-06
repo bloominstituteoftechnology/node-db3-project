@@ -31,3 +31,17 @@
     FROM "Order" AS o
     Join Customer AS c ON o.CustomerId = c.Id
     Join Employee AS e ON o.EmployeeId = e.Id;
+
+--Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 9 records.
+
+    SELECT c.CategoryName, c.Description, Count() as AmtofProductsinCategory
+    FROM categories as c
+    JOIN products AS p ON c.CategoryId = p.CategoryId
+    GROUP BY p.CategoryID;
+
+--Display OrderID and a column called ItemCount that shows the total number of products placed on the order. Shows 196 records.
+
+    SELECT o.OrderId, SUM(od.Quantity) AS ItemCount
+    FROM Orders AS o
+    JOIN OrderDetails AS od ON o.OrderID = od.OrderId
+    GROUP BY o.OrderId;
