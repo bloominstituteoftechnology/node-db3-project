@@ -20,17 +20,18 @@ async function findById(id){
 }
 
 async function findStepsBySchemeId(id){
-    return ('all wired up')
+    return await db('schemes').join('steps',
+    'schemes.id','steps.scheme_id').select('steps.id','schemes.name','steps.step_number','steps.instructions').where({ scheme_id:id })
 }
 
 async function createScheme(data){
-    return ('all wired up')
+    return await db('schemes').insert(data);
 }
 
 async function updateScheme(id,changes){
-    return ('all wired up')
+    return await db('schemes').where({id}).update(changes);
 }
 
 async function deleteScheme(id){
-    return ('all wired up')
+    return await db('schemes').where({id}).del();
 }
