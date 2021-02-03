@@ -5,10 +5,10 @@ const db = require('../../data/db-config');
 module.exports = {
     find,
     findById,
-    findStepsBySchemeId,
-    createScheme,
-    updateScheme,
-    deleteScheme
+    findSteps,
+    add,
+    update,
+    remove
 }
 
 async function find(){
@@ -19,19 +19,22 @@ async function findById(id){
     return await db('schemes').where({ id })
 }
 
-async function findStepsBySchemeId(id){
-    return await db('schemes').join('steps',
-    'schemes.id','steps.scheme_id').select('steps.id','schemes.name','steps.step_number','steps.instructions').where({ scheme_id:id })
+async function findSteps(id){
+    return await db('schemes as s')
+        .join('steps as st','st.scheme_id','=','s.id')
+        .select('st.id','s.scheme_name','st.step_number','st.instructions')
+        .where({scheme_id:id})
+    
 }
 
-async function createScheme(data){
+async function add(data){
     return await db('schemes').insert(data);
 }
 
-async function updateScheme(id,changes){
+async function update(id,changes){
     return await db('schemes').where({id}).update(changes);
 }
 
-async function deleteScheme(id){
+async function remove(id){
     return await db('schemes').where({id}).del();
 }
