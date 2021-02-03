@@ -11,6 +11,8 @@ module.exports = {
     remove
 }
 
+//MVP met
+
 async function find(){
     return await db('schemes');
 }
