@@ -12,6 +12,7 @@ Follow these steps to set up and work on your project:
 - [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
 - [ ] Push commits: git `push origin <firstName-lastName>`.
 
+
 ### Task 2: Minimum Viable Product
 
 For this project you will
