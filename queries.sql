@@ -31,7 +31,7 @@ from
 join product as p
 on od.unitprice = p.unitprice
 where od.orderid = 10251 
-order by p.productname
+order by p.productname desc
 
 -- Display the OrderID, Customer's Company Name and the employee's LastName for every order. All columns should be labeled clearly. Displays 16,789 records.
 
