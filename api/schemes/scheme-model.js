@@ -31,13 +31,31 @@ function findSteps(id){
 }
 
 function add(scheme){
-
+    return db('schemes').insert(scheme)
+    .then(([id]) =>{
+        return db('schemes').where('id', id).first()
+    })
 }
 
 function update(changes, id){
+    const schemaObject = db('schemes').where({id}).first()
 
+    if(!schemaObject){
+      return Promise.resolve(null)  
+    } else{
+        return db('schemes').where('id', id).update(account)
+    .then(([id]) =>{
+        return db('schemes').where('id', accountId).first()
+    })
+    }
 }
 
 function remove(id){
+    const schemaObject = db('schemes').where({id}).first()
 
+    if(!schemaObject){
+        return Promise.resolve(null)  
+      } else{
+          return db('schemes').where('id', id).del()
+      }
 }
