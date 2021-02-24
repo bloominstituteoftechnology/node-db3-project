@@ -2,102 +2,106 @@
 
 ## Instructions
 
-### Task 1: Set Up The Project With Git
+### Task 1: Project Setup
 
-Follow these steps to set up and work on your project:
+There are two possible ways to submit your project. Your instructor should have communicated which method to use for this project during the Guided Project and in your cohort's Slack channel. If you are still unsure, reach out to Lambda Staff.
 
-- [ ] Create a forked copy of this project.
-- [ ] Clone your OWN version of the repository (Not Lambda's by mistake!).
-- [ ] Create a new branch: `git checkout -b <firstName-lastName>`.
-- [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
-- [ ] Push commits: git `push origin <firstName-lastName>`.
+#### Option A - Codegrade
+
+- [ ] Fork and clone the repository.
+- [ ] Open the assignment in Canvas and click on the "Set up git" option.
+- [ ] Follow instructions to set up Codegrade's Webhook and Deploy Key.
+- [ ] Push your first commit: `git commit --allow-empty -m "first commit" && git push`.
+- [ ] Check to see that Codegrade has accepted your git submssion.
+
+#### Option B - Pull Request
+
+- [ ] Fork and clone the repository.
+- [ ] Implement your project in a `firstname-lastname` branch.
+- [ ] Create a pull request of `firstname-lastname` against your `main` branch.
+- [ ] Open the assignment in Canvas and submit your pull request.
 
 ### Task 2: Minimum Viable Product
 
-For this project you will
+For this project you will:
 
-- write SQL statements against the `northwind.db3` database. Once you have the correct SQL Statement for each query, write it inside the _queries.sql_ file under the corresponding comment.
-- configure Knex by creating a `db-config.js` file that consumes the `knexfile.js`.
-- write the db helper methods for the `schemes` resource in `./api/schemes/scheme-model.js`.
+- write **SQL statements** against the `northwind.db3` database.
+- write the **middleware functions** for the schemes router in `api/schemes/scheme-middleware.js`.
+- write the **db helper functions** for the schemes resource in `api/schemes/scheme-model.js`.
 
 ### Multi Table Queries
 
 Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and execute the following queries:
 
-(Write the queries inside `./queries.sql`)
+(Write the queries inside `./queries.sql` under the corresponding comment)
 
 - Display the ProductName and CategoryName for all products in the database. Returns 77 records.
 - Display the order Id and shipper CompanyName for all orders placed before August 9 2012. Returns 429 records.
 - Display the name and quantity of the products ordered in order with Id 10251. Sort by ProductName. Returns 3 records.
 - Display the OrderID, customer's Company Name and the employee's Last Name for every order. All columns should be labeled clearly. Returns 16,789 records.
 
-### Database Methods
+### Middleware Functions
 
-Write helpers methods in `./api/schemes/scheme-model.js` that match the following specifications:
+Write middleware functions in `api/schemes/scheme-middleware.js` following the instructions inside that file:
 
-- `find()`:
-  - Calling find returns a promise that resolves to an array of all schemes in the database.
-  - No steps are included.
-- `findById(id)`:
-  - Expects a scheme `id` as its only parameter.
-  - Resolve to a _single_ scheme object.
-  - On an invalid `id`, resolves to `null`, perhaps by doing `if (!schemaObject) return Promise.resolve(null)`.
-- `findSteps(id)`:
-  - Expects a scheme `id`.
-  - Resolves to an array of all correctly ordered step for the given scheme: `[ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ]`.
-  - This array should include the `scheme_name` _not_ the `scheme_id`.
-- `add(scheme)`:
-  - Expects a scheme object.
-  - Inserts scheme into the database.
-  - Resolves to the newly inserted scheme, including `id`.
-- `update(changes, id)`:
-  - Expects a changes object and an `id`.
-  - Updates the scheme with the given id.
-  - Resolves to the newly updated scheme object.
-- `remove(id)`:
-  - Removes the scheme object with the provided id.
-  - Resolves to the removed scheme
-  - Resolves to `null` on an invalid id.
-  - (Hint: Only worry about removing the `scheme`. The database is configured to automatically remove all associated steps.)
+- [ ] `checkSchemeId`
+- [ ] `validateScheme`
+- [ ] `validateStep`
+
+### Database Functions
+
+Write db access functions in `api/schemes/scheme-model.js` following the instructions inside that file:
+
+- [ ] `find`
+- [ ] `findById`
+- [ ] `findSteps`
+- [ ] `add`
+- [ ] `addStep`
 
 #### Schemes Schema
 
-| field       | data type        | metadata                                            |
-| :---------- | :--------------- | :-------------------------------------------------- |
-| id          | unsigned integer | primary key, auto-increments, generated by database |
-| scheme_name | string           | required, unique                                    |
+| field       | data type        | metadata                                      |
+| :---------- | :--------------- | :-------------------------------------------- |
+| scheme_id   | unsigned integer | primary key, auto-increments, generated by db |
+| scheme_name | string           | required, unique                              |
 
 #### Steps Schema
 
-| field        | data type        | metadata                                            |
-| :----------- | :--------------- | :-------------------------------------------------- |
-| id           | unsigned integer | primary key, auto-increments, generated by database |
-| scheme_id    | unsigned integer | foreign key referencing scheme.id, required         |
-| step_number  | unsigned integer | required                                            |
-| instructions | string           | required                                            |
+| field        | data type        | metadata                                           |
+| :----------- | :--------------- | :--------------------------------------------      |
+| step_id      | unsigned integer | primary key, auto-increments, generated by db      |
+| scheme_id    | unsigned integer | foreign key referencing scheme.scheme_id, required |
+| step_number  | unsigned integer | required                                           |
+| instructions | string           | required                                           |
 
 #### API
 
-The following endpoints are available to test the functionality of the model methods.
+Open `api/schemes/scheme-router.js` and study the specification for each endpoint.
 
-- `GET /api/schemes/` - gets master list of schemes (without steps)
-- `GET /api/schemes/:id` - gets a single scheme
-- `GET /api/schemes/:id/steps` - gets all steps for a given scheme, ordered correctly
-- `POST /api/schemes` - adds a new scheme
-- `PUT /api/schemes:id` - updates a given scheme
-- `DELETE /api/schemes/:id` - removes a given scheme and all associated steps
+You do not need to make any changes to this file.
+
+- `[GET] /api/schemes`
+- `[GET] /api/schemes/:scheme_id`
+- `[GET] /api/schemes/:scheme_id/steps`
+- `[POST] /api/schemes`
+- `[POST] /api/schemes/:scheme_id/steps`
+
+#### Notes
+
+- Run tests locally executing `npm test`.
+- You are welcome to create additional files but **do not move or rename existing files** or folders.
+- Do not alter your `package.json` file except to install additional libraries or add additional scripts.
+- In your solution, it is essential that you follow best practices and produce clean and professional results.
+- Schedule time to review, refine, and assess your work.
+- Perform basic professional polishing including spell-checking and grammar-checking on your work.
 
 ### Task 3: Stretch Problems
 
-- In [SQL Try Editor at W3Schools.com](https://www.w3schools.com/Sql/tryit.asp?filename=trysql_select_top):
-  - Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 9 records.
-  - Display OrderID and a column called ItemCount that shows the total number of products placed on the order. Shows 196 records.
-- Add the following method to your API
-  - `addStep(step, scheme_id)`: This method expects a step object and a scheme id. It inserts the new step into the database, correctly linking it to the intended scheme.
-  - You may use `POST /api/schemes/:id/addStep` to test this method.
+In [SQL Try Editor at W3Schools.com](https://www.w3schools.com/Sql/tryit.asp?filename=trysql_select_top):
 
-## Submission format
-
-Follow these steps for completing your project.
-
-- [ ] Submit to Canvas a pull request to merge `<firstName-lastName>` Branch into master (student's Repo). **Please don't merge your own pull request**
+- Find the number of shipments by each shipper
+- Find the top 5 best performing employees measured in number of orders
+- Find the top 5 best performing employees measured in revenue
+- Find the category that brings in the least revenue
+- Find the customer country with the most orders
+- Find the shipper that moves the most cheese measured in units
