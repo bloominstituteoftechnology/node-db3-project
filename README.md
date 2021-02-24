@@ -89,7 +89,7 @@ You do not need to make any changes to this file.
 #### Notes
 
 - Run tests locally executing `npm test`.
-- Reset the data in the database executing `npm run seed`.
+- Reset the data in the `data/schemes.db3` database executing `npm run seed`.
 - You are welcome to create additional files but **do not move or rename existing files** or folders.
 - Do not alter your `package.json` file except to install additional libraries or add additional scripts.
 - In your solution, it is essential that you follow best practices and produce clean and professional results.
