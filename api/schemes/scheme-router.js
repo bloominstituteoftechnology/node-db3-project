@@ -5,6 +5,69 @@ const Schemes = require('./scheme-model.js')
 
 const router = express.Router()
 
+// Get All Schemes
+router.get('/', async (req, res, next) => {
+  try {
+    const results = await Schemes.find();
+    res.status(200).json(results);
+  } catch (err) {
+    next(err);
+  }
+})
+
+// Get Specific Scheme
+router.get('/:scheme_id', checkSchemeId(), async (req, res, next) => {
+  try {
+    const scheme = await Schemes.findById(req.params.scheme_id)
+    res.status(200).json(scheme)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// Get Scheme's Steps
+router.get('/:scheme_id/steps', checkSchemeId(), async (req, res, next) => {
+  try {
+    const results = await Schemes.findSteps(req.params.scheme_id)
+    res.status(200).json(results)
+  } catch (err) {
+    next(err);
+  }
+})
+
+// Add New Scheme
+router.post('/', validateScheme(), async (req, res, next) => {
+  const scheme = req.body
+  try {
+    const newScheme = await Schemes.add(scheme);
+    res.status(201).json(newScheme);
+  } catch (err) {
+    next(err);
+  }
+})
+
+// Add New Step
+router.post('/:scheme_id/steps', checkSchemeId(), validateStep(), async (req, res, next) => {
+  try {
+    const step = await Schemes.addStep(req.body);
+    res.status(201).json(step);
+  } catch (err) {
+    next(err);
+  }
+})
+
+// Error Handling
+router.use((err, req, res, next) => { // eslint-disable-line
+  res.status(500).json({
+    sageAdvice: 'Finding the real error is 90% of the bug fix',
+    error: err.message,
+    stack: err.stack,
+  })
+})
+
+module.exports = router
+
+
 /**
   [GET] /api/schemes
 
@@ -23,14 +86,6 @@ const router = express.Router()
     // etc
   ]
  */
-router.get('/', (req, res, next) => {
-  Schemes.find()
-    .then(schemes => {
-      res.json(schemes)
-    })
-    .catch(next)
-})
-
 /*
   [GET] /api/schemes/2
 
@@ -52,16 +107,6 @@ router.get('/', (req, res, next) => {
     ]
   }
 */
-router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
-  const { scheme_id } = req.params
-
-  Schemes.findById(scheme_id)
-    .then(scheme => {
-      res.json(scheme)
-    })
-    .catch(next)
-})
-
 /*
   [GET] /api/schemes/2/steps
 
@@ -81,35 +126,6 @@ router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
     }
   ]
 */
-router.get('/:scheme_id/steps', checkSchemeId, (req, res, next) => {
-  const { scheme_id } = req.params
-
-  Schemes.findSteps(scheme_id)
-    .then(steps => {
-      res.json(steps)
-    })
-    .catch(next)
-})
-
-/*
-  [POST] /api/schemes { "scheme_name": "Take Ovah" }
-
-  response:
-  {
-    "scheme_id": 8,
-    "scheme_name": "Take Ovah"
-  }
-*/
-router.post('/', validateScheme, (req, res, next) => {
-  const scheme = req.body
-
-  Schemes.add(scheme)
-    .then(scheme => {
-      res.status(201).json(scheme)
-    })
-    .catch(next)
-})
-
 /*
   [POST] /api/schemes/5/steps { "instructions": "and yet more questing", "step_number": 2 }
 
@@ -129,23 +145,12 @@ router.post('/', validateScheme, (req, res, next) => {
     }
   ]
 */
-router.post('/:scheme_id/steps', checkSchemeId, validateStep, (req, res, next) => {
-  const step = req.body
-  const { scheme_id } = req.params
+/*
+  [POST] /api/schemes { "scheme_name": "Take Ovah" }
 
-  Schemes.addStep(scheme_id, step)
-    .then(allSteps => {
-      res.status(201).json(allSteps)
-    })
-    .catch(next)
-})
-
-router.use((err, req, res, next) => { // eslint-disable-line
-  res.status(500).json({
-    sageAdvice: 'Finding the real error is 90% of the bug fix',
-    error: err.message,
-    stack: err.stack,
-  })
-})
-
-module.exports = router
+  response:
+  {
+    "scheme_id": 8,
+    "scheme_name": "Take Ovah"
+  }
+*/
