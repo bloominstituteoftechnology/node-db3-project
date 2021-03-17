@@ -53,6 +53,7 @@ async function findById(scheme_id) { // EXERCISE B
     .where('steps.scheme_id', '=', scheme_id)
     .orderBy('steps.step_number', 'asc')
 
+    console.log("model")
   if (steps.length !== 0) {
     const consolidated = {
       scheme_id: steps[0]['scheme_id'],
@@ -149,7 +150,7 @@ function findSteps(scheme_id) { // EXERCISE C
       ]
   */
   return db('schemes')
-    .leftJoin('steps', 'schemes.scheme_id', 'steps.scheme_id')
+    .join('steps', 'schemes.scheme_id', 'steps.scheme_id')
     .where('schemes.scheme_id', scheme_id)
     .column('step_id', 'step_number', 'instructions', 'scheme_name')
     .orderBy('step_number', 'asc')
