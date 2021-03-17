@@ -31,7 +31,7 @@ For this project you will:
 
 ### Multi Table Queries
 
-Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and execute the following queries:
+- [x] Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and execute the following queries:
 
 (Write the queries inside `./queries.sql` under the corresponding comment)
 
