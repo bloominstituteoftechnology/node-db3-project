@@ -1,3 +1,5 @@
+const db = require('../../data/db-config')
+
 function find() { // EXERCISE A
   /*
     1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
@@ -15,6 +17,7 @@ function find() { // EXERCISE A
     2A- When you have a grasp on the query go ahead and build it in Knex.
     Return from this function the resulting dataset.
   */
+ return db('schemes')
 }
 
 function findById(scheme_id) { // EXERCISE B
@@ -83,6 +86,10 @@ function findById(scheme_id) { // EXERCISE B
         "steps": []
       }
   */
+    return db('schemes')
+    .leftJoin('steps', 'schemes.scheme_id', 'steps.scheme_id')
+    .where('steps.scheme_id', scheme_id).first()
+    .orderBy('steps.step_number')
 }
 
 function findSteps(scheme_id) { // EXERCISE C
@@ -106,12 +113,19 @@ function findSteps(scheme_id) { // EXERCISE C
         }
       ]
   */
+      return db('steps')
+        .select('schemes.scheme_name', 'step_number', 'instructions')
+        .join('schemes', 'steps.scheme_id', 'schemes.scheme_id')
+        .where('schemes.scheme_id', scheme_id)
+        .orderBy('steps.step_number')
 }
 
 function add(scheme) { // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
+ return db('schemes')
+  .insert(scheme)
 }
 
 function addStep(scheme_id, step) { // EXERCISE E
@@ -129,3 +143,10 @@ module.exports = {
   add,
   addStep,
 }
+
+
+/*select * from `schemes` 
+inner join `steps` on `scheme_id` = `steps`.`scheme_id` 
+where `scheme_id` = '1' 
+order by `steps`.`step_number` asc limit 1 
+- SQLITE_ERROR: ambiguous column name: scheme_id*/

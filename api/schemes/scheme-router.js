@@ -52,7 +52,7 @@ router.get('/', (req, res, next) => {
     ]
   }
 */
-router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
+router.get('/:scheme_id', (req, res, next) => {
   const { scheme_id } = req.params
 
   Schemes.findById(scheme_id)
@@ -81,7 +81,7 @@ router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
     }
   ]
 */
-router.get('/:scheme_id/steps', checkSchemeId, (req, res, next) => {
+router.get('/:scheme_id/steps', (req, res, next) => {
   const { scheme_id } = req.params
 
   Schemes.findSteps(scheme_id)
@@ -100,7 +100,7 @@ router.get('/:scheme_id/steps', checkSchemeId, (req, res, next) => {
     "scheme_name": "Take Ovah"
   }
 */
-router.post('/', validateScheme, (req, res, next) => {
+router.post('/', (req, res, next) => {
   const scheme = req.body
 
   Schemes.add(scheme)
