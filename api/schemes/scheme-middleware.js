@@ -54,7 +54,7 @@ const validateStep = (req, res, next) => {
 
   if (!instructions || instructions === '' || typeof(instructions) !== 'string') {
     res.status(400).json({ message: "invalid step" });
-  } else if (!step_number || typeof(step_number) !== 'number' || step_number < 1) {
+  } else if (!step_number || typeof(parseInt(step_number)) !== 'number' || step_number < 1) {
     res.status(400).json({ message: "invalid step" });
   } else {
     next();

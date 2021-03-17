@@ -1,4 +1,4 @@
-const { count, leftJoin, orderBy } = require('../../data/db-config');
+const { count, leftJoin, orderBy, column, columns } = require('../../data/db-config');
 const db = require('../../data/db-config');
 
 function find() { // EXERCISE A
@@ -148,20 +148,40 @@ function findSteps(scheme_id) { // EXERCISE C
         }
       ]
   */
+  return db('schemes')
+    .leftJoin('steps', 'schemes.scheme_id', 'steps.scheme_id')
+    .where('schemes.scheme_id', scheme_id)
+    .column('step_id', 'step_number', 'instructions', 'scheme_name')
+    .orderBy('step_number', 'asc')
 }
 
-function add(scheme) { // EXERCISE D
+async function add(scheme) { // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
+  const id = await db('schemes')
+    .insert(scheme)
+  
+  return findById(id);
+  
 }
 
-function addStep(scheme_id, step) { // EXERCISE E
+async function addStep(scheme_id, step) { // EXERCISE E
   /*
     1E- This function adds a step to the scheme with the given `scheme_id`
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
+  const stepToAdd = {
+    scheme_id: scheme_id,
+    step_number: parseInt(step.step_number),
+    instructions: step.instructions
+  };
+
+  await db('steps')
+    .insert(stepToAdd)
+  
+  return findSteps(scheme_id);
 }
 
 module.exports = {
