@@ -1,4 +1,4 @@
-const { count } = require('../../data/db-config');
+const { count, leftJoin, orderBy } = require('../../data/db-config');
 const db = require('../../data/db-config');
 
 function find() { // EXERCISE A
@@ -26,7 +26,7 @@ function find() { // EXERCISE A
     .orderBy('schemes.scheme_id', 'asc')
 }
 
-function findById(scheme_id) { // EXERCISE B
+async function findById(scheme_id) { // EXERCISE B
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
@@ -38,7 +38,40 @@ function findById(scheme_id) { // EXERCISE B
           ON sc.scheme_id = st.scheme_id
       WHERE sc.scheme_id = 1
       ORDER BY st.step_number ASC;
+  */
+ 
 
+  // return db('schemes')
+  //   .leftJoin('steps', 'schemes.scheme_id', 'steps.scheme_id')
+  //   .column('steps.scheme_id', 'schemes.scheme_name', 'steps.step_id', 'steps.step_number', 'steps.instructions')
+  //   .where('steps.scheme_id', '=', scheme_id)
+  //   .orderBy('steps.step_number', 'asc')
+
+  const steps = await db('schemes')
+    .leftJoin('steps', 'schemes.scheme_id', 'steps.scheme_id')
+    .column('steps.scheme_id', 'schemes.scheme_name', 'steps.step_id', 'steps.step_number', 'steps.instructions')
+    .where('steps.scheme_id', '=', scheme_id)
+    .orderBy('steps.step_number', 'asc')
+
+  if (steps.length !== 0) {
+    const consolidated = {
+      scheme_id: steps[0]['scheme_id'],
+      scheme_name: steps[0]['scheme_name'],
+      steps: steps.reduce((acc, val) => {
+        return acc.concat(
+          (({step_id, step_number, instructions}) => ({step_id, step_number, instructions}))(val)
+        )
+      }, [])
+    };
+    return Promise.resolve(consolidated);
+  } else {
+    const noSteps = await db('schemes').where('scheme_id', scheme_id);
+    noSteps[0].steps = steps;
+    return noSteps[0];
+  }
+
+
+  /*
     2B- When you have a grasp on the query go ahead and build it in Knex
     making it parametric: instead of a literal `1` you should use `scheme_id`.
 

@@ -17,7 +17,7 @@ const checkSchemeId = async (req, res, next) => {
       req.scheme = scheme;
       next();
     } else {
-      res.status(404).json({ message: `scheme with scheme_id ${id} not found` });
+      res.status(404).json({ message: `scheme with scheme_id ${scheme_id} not found` });
     }
   } catch(err) { next(err) }
 }
