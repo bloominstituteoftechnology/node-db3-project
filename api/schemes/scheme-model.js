@@ -1,4 +1,10 @@
+const db = require('../../data/db-config');
+
 function find() { // EXERCISE A
+  db('sc').count('st.step_id as number_of_steps')
+  .from('schemes as sc').leftJoin('steps as st', function() {
+    this.on('sc.scheme_id', '=', 'st.scheme_id')
+  }).groupBy('sc.scheme_id').orderBy('sc.scheme_id');
   /*
     1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
     What happens if we change from a LEFT join to an INNER join?
@@ -18,6 +24,12 @@ function find() { // EXERCISE A
 }
 
 function findById(scheme_id) { // EXERCISE B
+  db('sc.scheme_name', 'st')
+  .from('schemes as sc')
+  .leftJoin('steps as st')
+  .on('sc.scheme_id', '=', 'st.scheme_id')
+  .where('sc.scheme_id', '=', 'scheme_id')
+  .orderBy('st.step_number');
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
