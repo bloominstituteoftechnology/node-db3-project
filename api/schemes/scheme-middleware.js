@@ -7,7 +7,7 @@
   }
 */
 const checkSchemeId = (req, res, next) => {
-
+  next();
 }
 
 /*
