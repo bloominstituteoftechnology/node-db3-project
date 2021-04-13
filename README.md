@@ -23,7 +23,7 @@ There are two possible ways to submit your project. Your instructor should have 
 
 ### Database
 
-Open `data/schemes.db3` in SQLite Studio to see the data inside the `schemes` and `steps` tables.
+Open `data/schemes.db3` using a graphical tool like SQLite Studio and study the data inside the `schemes` and `steps` tables. The data can be reset at any time by executing `npm run seed`.
 
 ### API
 
@@ -72,16 +72,15 @@ Write db access functions in `api/schemes/scheme-model.js` following the instruc
 ### Notes
 
 - Run tests locally executing `npm test`.
-- Reset the data in the `data/schemes.db3` database executing `npm run seed`.
-- You are welcome to create additional files but **do not move or rename existing files** or folders.
-- Do not alter your `package.json` file except to install additional libraries or add additional scripts.
-- In your solution, it is essential that you follow best practices and produce clean and professional results.
+- You are welcome to create additional modules but do not move or rename existing files or folders.
+- Do not change your `package.json` file except to install additional libraries or add additional scripts.
+- In your solution it is essential that you follow best practices and produce clean and professional results.
 - Schedule time to review, refine, and assess your work.
 - Perform basic professional polishing including spell-checking and grammar-checking on your work.
 
 ## Task 3: Multi Table Queries
 
-Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and execute the following queries:
+Use a graphical tool like SQLite Studio to open `./data/northwind.db3` and execute the following queries:
 
 (Write the queries inside `./queries.sql` under the corresponding comment)
 
