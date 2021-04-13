@@ -141,7 +141,7 @@ router.post('/:scheme_id/steps', checkSchemeId, validateStep, (req, res, next) =
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
-  res.status(500).json({
+  res.status(err.status || 500).json({
     sageAdvice: 'Finding the real error is 90% of the bug fix',
     error: err.message,
     stack: err.stack,
