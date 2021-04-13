@@ -1,4 +1,4 @@
-
+// DO NOT CHANGE THIS FILE
 exports.up = function (knex) {
   return knex.schema
     .createTable('schemes', tbl => {
