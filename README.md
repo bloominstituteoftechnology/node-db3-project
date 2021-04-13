@@ -21,6 +21,10 @@ There are two possible ways to submit your project. Your instructor should have 
 
 ## Task 2: Project Minimum Viable Product
 
+### Database
+
+Open `data/schemes.db3` in SQLite Studio to see the data inside the `schemes` and `steps` tables.
+
 ### API
 
 Open `api/schemes/scheme-router.js` and study the specification for each endpoint. You do not need to make any changes to this file.
