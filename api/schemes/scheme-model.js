@@ -1,3 +1,5 @@
+const db = require('../../data/db-config.js')
+
 function find() { // EXERCISE A
   /*
     1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
@@ -6,8 +8,8 @@ function find() { // EXERCISE A
       SELECT
           sc.*,
           count(st.step_id) as number_of_steps
-      FROM schemes as sc
-      LEFT JOIN steps as st
+      FROM schemes as sc      (this goes into the .join or .leftJoin)
+      LEFT JOIN steps as st   (This goes into the db("")
           ON sc.scheme_id = st.scheme_id
       GROUP BY sc.scheme_id
       ORDER BY sc.scheme_id ASC;
@@ -15,7 +17,16 @@ function find() { // EXERCISE A
     2A- When you have a grasp on the query go ahead and build it in Knex.
     Return from this function the resulting dataset.
   */
-}
+
+  return db("schemes as sc")
+    .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
+    .select("st.scheme_id", "sc.scheme_id",  "sc.scheme_name")
+    // .selectTop("st.step_id as number_of_steps")
+    .groupBy("sc.scheme_id")
+    .orderBy("sc.scheme_id", 'asc')
+    .count("st.step_id as number_of_steps") // this needs to be fixed. 
+    
+  }
 
 function findById(scheme_id) { // EXERCISE B
   /*
@@ -82,7 +93,20 @@ function findById(scheme_id) { // EXERCISE B
         "scheme_name": "Have Fun!",
         "steps": []
       }
+      SELECT
+          sc.scheme_name,
+          st.*
+      FROM schemes as sc
+      LEFT JOIN steps as st
+          ON sc.scheme_id = st.scheme_id
+      WHERE sc.scheme_id = 1
+      ORDER BY st.step_number ASC;
   */
+
+ return db("schemes as sc")
+ .leftJoin("steps as st", )
+ .select("st.scheme_id", "st.scheme_name",  "sc.scheme_name")
+
 }
 
 function findSteps(scheme_id) { // EXERCISE C
