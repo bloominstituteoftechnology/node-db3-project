@@ -28,12 +28,11 @@ function find() { // EXERCISE A
 }
 
 function findById(scheme_id) { // EXERCISE B
-  const dataArray = db("schemes as sc")
+  return db("schemes as sc")
   .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
   .where("sc.scheme_id", scheme_id)
   .select("sc.scheme_name", "st.*")
   .orderBy("st.step_number", "asc")
-  return dataArray
   
     // dataArray.map(data => {
     //   if(data.steps){
