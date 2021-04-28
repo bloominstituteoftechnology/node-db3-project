@@ -20,7 +20,7 @@ function find() { // EXERCISE A
   return db("schemes as sc")
     .select("sc.*")
     .count("st.step_id as number_of_steps")
-    .leftJoin("steps as st", "sc.schema_id", "st.scheme_id")
+    .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
     .groupBy("sc.scheme_id")
     .orderBy("sc.scheme_id", "asc")
 }
@@ -142,7 +142,7 @@ function addStep(scheme_id, step) { // EXERCISE E
   */
   return db("schemes")
     .where("id", scheme_id)
-    .update(step)
+    .insert(step)
 }
 
 module.exports = {
