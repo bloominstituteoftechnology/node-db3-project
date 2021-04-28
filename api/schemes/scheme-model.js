@@ -27,10 +27,10 @@ function find() { // EXERCISE A
   */
 }
 
-function findById(scheme_id) { // EXERCISE B
+function findById(schemeId) { // EXERCISE B
   return db("schemes as sc")
   .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
-  .where("sc.scheme_id", scheme_id)
+  .where("sc.scheme_id", schemeId)
   .select("sc.scheme_name", "st.*")
   .orderBy("st.step_number", "asc")
   
