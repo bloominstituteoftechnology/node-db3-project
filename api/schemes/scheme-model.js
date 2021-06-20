@@ -1,19 +1,17 @@
 const db = require("../../data/db-config.js");
 
 const find = () => {
-  // EXERCISE A
-  return db("schemes as sc")
-    .join("steps as st", "sc.scheme_id", "st.scheme_id")
-    .select("sc.*", "st.step_id")
-    .count("st.step_id")
-    .as("number_of_steps")
-    .orderBy("sc.scheme_id")
-    .groupBy("sc.scheme_id");
+  return (
+    db("schemes as sc")
+      .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
+      // .as("number_of_steps")
+      .select("sc.*", "st.step_id as number_of_steps")
+      .count("st.step_id as number_of_steps")
+      .orderBy("sc.scheme_id")
+      .groupBy("sc.scheme_id")
+  );
 };
 /*
-    1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
-    What happens if we change from a LEFT join to an INNER join?
-
       SELECT
           sc.*,
           count(st.step_id) as number_of_steps
@@ -21,17 +19,11 @@ const find = () => {
       LEFT JOIN steps as st
           ON sc.scheme_id = st.scheme_id
       GROUP BY sc.scheme_id
-      ORDER BY sc.scheme_id ASC;
-
-    2A- When you have a grasp on the query go ahead and build it in Knex.
-    Return from this function the resulting dataset.
+      ORDER BY sc.scheme_id ASC;\
   */
 
 function findById(scheme_id) {
-  // EXERCISE B
   /*
-    1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
-
       SELECT
           sc.scheme_name,
           st.*
