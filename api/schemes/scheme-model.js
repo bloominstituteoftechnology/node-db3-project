@@ -1,15 +1,12 @@
 const db = require("../../data/db-config.js");
 
 const find = () => {
-  return (
-    db("schemes as sc")
-      .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
-      // .as("number_of_steps")
-      .select("sc.*", "st.step_id as number_of_steps")
-      .count("st.step_id as number_of_steps")
-      .orderBy("sc.scheme_id")
-      .groupBy("sc.scheme_id")
-  );
+  return db("schemes as sc")
+    .join("steps as st", "sc.scheme_id", "st.scheme_id")
+    .select("sc.*", "st.step_id as number_of_steps")
+    .count("st.step_id as number_of_steps")
+    .orderBy("sc.scheme_id")
+    .groupBy("sc.scheme_id");
 };
 /*
       SELECT
@@ -22,8 +19,41 @@ const find = () => {
       ORDER BY sc.scheme_id ASC;\
   */
 
-function findById(scheme_id) {
-  /*
+const findById = async (scheme_id) => {
+  const initialArray = await db("schemes as sc")
+    .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
+    .select(
+      "sc.scheme_id",
+      "sc.scheme_name",
+      "st.step_id",
+      "st.step_number",
+      "st.instructions"
+    )
+    .where("sc.scheme_id", `${scheme_id}`)
+    .orderBy("sc.scheme_id", "asc");
+  // return initialArray;
+  // returns array of objects
+  const object = (array) => {
+    array.forEach((item) => {
+      console.log(array[0]);
+      if (item.step_id !== null) {
+        return item;
+      } else {
+        return [];
+      }
+    });
+  };
+  const schemeObject = object(initialArray);
+  return schemeObject;
+  // const arrayToObject = (array, keyField) =>
+  //   array.reduce((obj, item) => {
+  //     obj[item[keyField]] = item;
+  //     return obj;
+  //   }, {});
+  // const schemeObject = arrayToObject(initialArray, "scheme_id");
+  // return schemeObject;
+};
+/*
       SELECT
           sc.scheme_name,
           st.*
@@ -32,30 +62,6 @@ function findById(scheme_id) {
           ON sc.scheme_id = st.scheme_id
       WHERE sc.scheme_id = 1
       ORDER BY st.step_number ASC;
-
-    2B- When you have a grasp on the query go ahead and build it in Knex
-    making it parametric: instead of a literal `1` you should use `scheme_id`.
-
-    3B- Test in Postman and see that the resulting data does not look like a scheme,
-    but more like an array of steps each including scheme information:
-
-      [
-        {
-          "scheme_id": 1,
-          "scheme_name": "World Domination",
-          "step_id": 2,
-          "step_number": 1,
-          "instructions": "solve prime number theory"
-        },
-        {
-          "scheme_id": 1,
-          "scheme_name": "World Domination",
-          "step_id": 1,
-          "step_number": 2,
-          "instructions": "crack cyber security"
-        },
-        // etc
-      ]
 
     4B- Using the array obtained and vanilla JavaScript, create an object with
     the structure below, for the case _when steps exist_ for a given `scheme_id`:
@@ -86,31 +92,27 @@ function findById(scheme_id) {
         "steps": []
       }
   */
-}
 
 function findSteps(scheme_id) {
-  // EXERCISE C
-  /*
-    1C- Build a query in Knex that returns the following data.
-    The steps should be sorted by step_number, and the array
-    should be empty if there are no steps for the scheme:
-
-      [
-        {
-          "step_id": 5,
-          "step_number": 1,
-          "instructions": "collect all the sheep in Scotland",
-          "scheme_name": "Get Rich Quick"
-        },
-        {
-          "step_id": 4,
-          "step_number": 2,
-          "instructions": "profit",
-          "scheme_name": "Get Rich Quick"
-        }
-      ]
-  */
+  return db("steps as st")
+    .leftJoin("schemes as sc", "st.scheme_id", "sc.scheme_id")
+    .select("st.step_id", "st.step_number", "st.instructions", "sc.scheme_name")
+    .orderBy("sc.scheme_id")
+    .distinct()
+    .orderBy("st.step_number");
+  // .groupBy("st.step_id")
 }
+
+/*  
+  select
+    st.step_id, st.step_number, st.instructions, 
+    sc.scheme_name
+    from steps as st
+    left join schemes as sc
+        on st.scheme_id = sc.scheme_id
+    group by sc.scheme_name
+    order by st.step_number
+*/
 
 function add(scheme) {
   // EXERCISE D
