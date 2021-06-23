@@ -99,6 +99,12 @@ function findById(scheme_id) { // EXERCISE B
 }
 
 function findSteps(scheme_id) { // EXERCISE C
+  return db("steps as st")
+  .join("schemes as sc", "sc.scheme_id", "st.scheme_id")
+  .select("st.step_id", "st.step_number", "st.instructions", "sc.scheme_name")
+  .where("st.scheme_id", scheme_id)
+  .orderBy("st.step_number", "asc")
+ 
   /*
     1C- Build a query in Knex that returns the following data.
     The steps should be sorted by step_number, and the array
@@ -125,6 +131,8 @@ function add(scheme) { // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
+ return db("schemes").insert({ name: scheme })
+
 }
 
 function addStep(scheme_id, step) { // EXERCISE E
@@ -133,6 +141,8 @@ function addStep(scheme_id, step) { // EXERCISE E
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
+
+    return db("steps").insert({ scheme_id: scheme_id, step: step })
 }
 
 module.exports = {
