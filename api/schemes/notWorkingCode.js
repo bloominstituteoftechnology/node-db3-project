@@ -58,3 +58,27 @@ const arrayToObject = (array, keyField) =>
 
 // const object = Object.assign({}, ...initialArray);
 // return object;
+
+// NOT WORKING #4
+/*
+const object = (array) => {
+    array.forEach((item) => {
+      console.log(array[0]);
+      if (item.step_id !== null) {
+        return item;
+      } else {
+        return [];
+      }
+    });
+  };
+  const schemeObject = object(initialArray);
+  return schemeObject;
+  
+  const arrayToObject = (array, keyField) =>
+    array.reduce((obj, item) => {
+      obj[item[keyField]] = item;
+      return obj;
+    }, {});
+  const schemeObject = arrayToObject(initialArray, "scheme_id");
+  return schemeObject;
+  */

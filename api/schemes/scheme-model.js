@@ -2,11 +2,11 @@ const db = require("../../data/db-config.js");
 
 const find = () => {
   return db("schemes as sc")
-    .join("steps as st", "sc.scheme_id", "st.scheme_id")
+    .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
     .select("sc.*", "st.step_id as number_of_steps")
     .count("st.step_id as number_of_steps")
     .orderBy("sc.scheme_id")
-    .groupBy("sc.scheme_id");
+    .groupBy("sc.scheme_name");
 };
 /*
       SELECT
@@ -21,7 +21,7 @@ const find = () => {
 
 const findById = async (scheme_id) => {
   const initialArray = await db("schemes as sc")
-    .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
+    .join("steps as st", "sc.scheme_id", "st.scheme_id")
     .select(
       "sc.scheme_id",
       "sc.scheme_name",
@@ -30,27 +30,31 @@ const findById = async (scheme_id) => {
       "st.instructions"
     )
     .where("sc.scheme_id", `${scheme_id}`)
-    .orderBy("sc.scheme_id", "asc");
-  // return initialArray;
+    .orderBy("sc.scheme_id", "asc")
+    .distinct()
+    .orderBy("st.step_number");
   // returns array of objects
-  const object = (array) => {
-    array.forEach((item) => {
-      console.log(array[0]);
-      if (item.step_id !== null) {
-        return item;
-      } else {
-        return [];
-      }
-    });
-  };
-  const schemeObject = object(initialArray);
+  // return initialArray;
+
+  const arrayToObject = (array, keyField) =>
+    array.reduce((obj, item) => {
+      obj[item[keyField]] = item;
+      return obj;
+    }, {});
+  const schemeObject = arrayToObject(initialArray, "scheme_id");
   return schemeObject;
-  // const arrayToObject = (array, keyField) =>
-  //   array.reduce((obj, item) => {
-  //     obj[item[keyField]] = item;
-  //     return obj;
-  //   }, {});
-  // const schemeObject = arrayToObject(initialArray, "scheme_id");
+
+  // const object = (array) => {
+  //   array.forEach((item) => {
+  //     console.log(array[0]);
+  //     if (item.step_id !== null) {
+  //       return item;
+  //     } else {
+  //       return [];
+  //     }
+  //   });
+  // };
+  // const schemeObject = object(initialArray);
   // return schemeObject;
 };
 /*
@@ -96,11 +100,9 @@ const findById = async (scheme_id) => {
 function findSteps(scheme_id) {
   return db("steps as st")
     .leftJoin("schemes as sc", "st.scheme_id", "sc.scheme_id")
+    .where({ "sc.scheme_id": `${scheme_id}` })
     .select("st.step_id", "st.step_number", "st.instructions", "sc.scheme_name")
-    .orderBy("sc.scheme_id")
-    .distinct()
     .orderBy("st.step_number");
-  // .groupBy("st.step_id")
 }
 
 /*  
@@ -114,14 +116,26 @@ function findSteps(scheme_id) {
     order by st.step_number
 */
 
-function add(scheme) {
-  // EXERCISE D
-  /*
-    1D- This function creates a new scheme and resolves to _the newly created scheme_.
-  */
+async function add(scheme) {
+  const [id] = await db("schemes as sc")
+    .insert(scheme)
+    .select("sc.*")
+    .orderBy("sc.scheme_id");
+  return findById(id);
 }
 
-function addStep(scheme_id, step) {
+// EXERCISE D
+/*
+    1D- This function creates a new scheme and resolves to _the newly created scheme_.
+  */
+
+async function addStep(scheme_id, step) {
+  scheme_id = await db("steps as st")
+    .insert(step)
+    .select("st.instruction")
+    .orderBy("st.step_number");
+  return findSteps(scheme_id);
+
   // EXERCISE E
   /*
     1E- This function adds a step to the scheme with the given `scheme_id`
