@@ -1,6 +1,7 @@
-function find() {
-  // EXERCISE A
-  /*
+const db = require("../../data/db-config.js");
+
+// EXERCISE A
+/*
     1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
     What happens if we change from a LEFT join to an INNER join?
 
@@ -16,11 +17,15 @@ function find() {
     2A- When you have a grasp on the query go ahead and build it in Knex.
     Return from this function the resulting dataset.
   */
+function find() {
+  return db("schemes as sc")
+    .join("steps as st", "sc.scheme_id", "st.scheme_id")
+    .select("sc.scheme_id", "sc.scheme_id ASC")
+    .where("st.step_id");
 }
 
-function findById(scheme_id) {
-  // EXERCISE B.
-  /*
+// EXERCISE B.
+/*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
       SELECT
@@ -85,11 +90,15 @@ function findById(scheme_id) {
         "steps": []
       }
   */
+function findById(scheme_id) {
+  return db("schemes as sc")
+    .join("steps as st", "sc.scheme_id", "st.scheme_id")
+    .select("sc.scheme_name", "st.*")
+    .where("sc.scheme_id", scheme_id);
 }
 
-function findSteps(scheme_id) {
-  // EXERCISE C
-  /*
+// EXERCISE C
+/*
     1C- Build a query in Knex that returns the following data.
     The steps should be sorted by step_number, and the array
     should be empty if there are no steps for the scheme:
@@ -109,23 +118,21 @@ function findSteps(scheme_id) {
         }
       ]
   */
-}
+function findSteps(scheme_id) {}
 
-function add(scheme) {
-  // EXERCISE D
-  /*
+// EXERCISE D
+/*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
-}
+function add(scheme) {}
 
-function addStep(scheme_id, step) {
-  // EXERCISE E
-  /*
+// EXERCISE E
+/*
     1E- This function adds a step to the scheme with the given `scheme_id`
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
-}
+function addStep(scheme_id, step) {}
 
 module.exports = {
   find,
