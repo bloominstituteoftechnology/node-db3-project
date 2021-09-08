@@ -1,4 +1,13 @@
-function find() { // EXERCISE A
+const db = require("../../data/db-config");
+
+function find() {
+  // EXERCISE A
+  return db("schemes as sc")
+    .leftJoin("steps as st", "sc.scheme_id", "=", "st.scheme_id")
+    .select('sc.*')
+    .count("st.step_id as number_of_steps")
+    .groupBy("sc.scheme_id")
+    .orderBy("sc.scheme_id")
   /*
     1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
     What happens if we change from a LEFT join to an INNER join?
@@ -17,7 +26,25 @@ function find() { // EXERCISE A
   */
 }
 
-function findById(scheme_id) { // EXERCISE B
+async function findById(scheme_id) {
+  // EXERCISE B
+  const response = await db("schemes as sc")
+    .leftJoin("steps as st", "sc.scheme_id", "=", "st.scheme_id")
+    .select("sc.scheme_name", "st.*" )
+    .where('sc.scheme_id', scheme_id)
+    .orderBy("st.step_number")
+
+  const result = {
+    scheme_id: response[0].scheme_id,
+    scheme_name: response[0].scheme_name,
+    steps: response.map(r=>({
+      step_id: r.step_id,
+      step_number: r.step_number,
+      instructions: r.instructions
+    }))
+  }
+
+  return result
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
@@ -85,7 +112,9 @@ function findById(scheme_id) { // EXERCISE B
   */
 }
 
-function findSteps(scheme_id) { // EXERCISE C
+function findSteps(scheme_id) {
+  // EXERCISE C
+  
   /*
     1C- Build a query in Knex that returns the following data.
     The steps should be sorted by step_number, and the array
@@ -108,13 +137,15 @@ function findSteps(scheme_id) { // EXERCISE C
   */
 }
 
-function add(scheme) { // EXERCISE D
+function add(scheme) {
+  // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
 }
 
-function addStep(scheme_id, step) { // EXERCISE E
+function addStep(scheme_id, step) {
+  // EXERCISE E
   /*
     1E- This function adds a step to the scheme with the given `scheme_id`
     and resolves to _all the steps_ belonging to the given `scheme_id`,
@@ -128,4 +159,4 @@ module.exports = {
   findSteps,
   add,
   addStep,
-}
+};
