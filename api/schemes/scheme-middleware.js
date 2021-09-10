@@ -1,3 +1,5 @@
+const { isInteger, isString } = require("lodash");
+
 /*
   If `scheme_id` does not exist in the database:
 
@@ -7,7 +9,12 @@
   }
 */
 const checkSchemeId = (req, res, next) => {
-
+  const { scheme_id } = req.params;
+  if(scheme_id == null) {
+    res.status(404).json({message: `scheme with scheme_id ${scheme_id} not found`});
+  } else {
+    next();
+  }
 }
 
 /*
@@ -19,7 +26,12 @@ const checkSchemeId = (req, res, next) => {
   }
 */
 const validateScheme = (req, res, next) => {
-
+  const { scheme_name } = req.params;
+  if (scheme_name == null){
+    res.status(400).json({message: `invalid scheme_name`})
+  } else {
+    next();
+  }
 }
 
 /*
@@ -32,7 +44,11 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
+  const { step_number, instructions } = req.params;
 
+    if(instructions == null || instructions != '' || instructions == isString || step_number != isInteger || step_number >= 0) {
+      res.status(400).json({message: `invalid step`})
+    }
 }
 
 module.exports = {
