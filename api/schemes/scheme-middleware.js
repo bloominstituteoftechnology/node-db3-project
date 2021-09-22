@@ -45,6 +45,8 @@ const validateScheme = (req, res, next) => {
 }
 
 
+
+
 /*
   If `instructions` is missing, empty string or not a string, or
   if `step_number` is not a number or is smaller than one:
@@ -55,7 +57,21 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
-
+  //const error { status: 400}
+  const { instructions, step_number } = req.body
+  
+  if (
+    instructions === undefined ||
+    typeof instructions !== 'string' ||
+    !instructions.trim() ||
+    typeof step_number !== 'number' ||
+    step_number < 1
+  ) {
+    const error = {status: 400, essage: 'invalid step' }
+    next(error)
+  } else {
+    next()
+  }
 }
 
 module.exports = {
