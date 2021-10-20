@@ -49,7 +49,7 @@ const validateScheme = (req, res, next) => {
 const validateStep = (req, res, next) => {
   if (!req.body.instructions || req.body.instructions == '' || typeof req.body.instructions != 'string') {
     res.status(400).json({ message: 'invalid step' })
-  } else if (!req.body.step_number || req.body.step_number < 1 || typeof req.body.step_number != 'number') {
+  } else if (!req.body.step_number || req.body.step_number < 0 || typeof req.body.step_number != 'number') {
     res.status(400).json({ message: 'invalid step' })
   } else {
     next()
