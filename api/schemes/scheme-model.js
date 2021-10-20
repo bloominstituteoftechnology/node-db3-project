@@ -1,3 +1,4 @@
+const db = require('../../data/db-config')
 function find() { // EXERCISE A
   /*
     1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
@@ -15,9 +16,23 @@ function find() { // EXERCISE A
     2A- When you have a grasp on the query go ahead and build it in Knex.
     Return from this function the resulting dataset.
   */
+  // return db('schemes as sc')
+  //   .leftJoin('steps as st')
+  //   .select('sc.scheme_id, sc.scheme_name')
+
+
+  return db('schemes as sc')
+    .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+    .select('sc.scheme_id', 'sc.scheme_name')
+    .count('sc.scheme_id as number_of_steps')
+    .groupBy('sc.scheme_id')
+    .orderBy('sc.scheme_id', 'ASC')
+  // .where('sc.scheme_id', 'st.scheme_id')
+  // .orderBy('st.step_number', 'asc')
+
 }
 
-function findById(scheme_id) { // EXERCISE B
+async function findById(scheme_id) { // EXERCISE B
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
@@ -83,6 +98,23 @@ function findById(scheme_id) { // EXERCISE B
         "steps": []
       }
   */
+
+  const scheme = await db('schemes as sc').where('sc.scheme_id', scheme_id).select('sc.scheme_id', 'sc.scheme_name')
+
+  const schemeStructure = {
+    scheme: scheme[0],
+    steps: []
+  }
+
+  const checkSteps = await db('schemes as sc').leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id').where('sc.scheme_id', scheme_id).select('st.step_id', 'st.step_number', 'st.instructions').orderBy('st.step_number')
+
+  if (checkSteps[0].step_number == null) {
+    schemeStructure.steps = []
+  } else {
+    schemeStructure.steps = checkSteps
+  }
+
+  return schemeStructure
 }
 
 function findSteps(scheme_id) { // EXERCISE C
@@ -106,6 +138,13 @@ function findSteps(scheme_id) { // EXERCISE C
         }
       ]
   */
+  return db('steps as st')
+    .leftJoin('schemes as sc', 'sc.scheme_id', 'st.scheme_id')
+    .select('st.step_id', 'st.step_number', 'st.instructions', 'sc.scheme_name')
+    .where('st.scheme_id', scheme_id)
+    // .groupBy('st.scheme_name')
+    .orderBy('st.step_number', 'ASC')
+
 }
 
 function add(scheme) { // EXERCISE D

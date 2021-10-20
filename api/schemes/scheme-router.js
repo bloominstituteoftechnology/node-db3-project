@@ -31,6 +31,10 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+
+
+
+
 /*
   [GET] /api/schemes/2
 
@@ -53,6 +57,7 @@ router.get('/', (req, res, next) => {
   }
 */
 router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
+  console.log('id route')
   const { scheme_id } = req.params
 
   Schemes.findById(scheme_id)
@@ -61,6 +66,11 @@ router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
     })
     .catch(next)
 })
+
+
+
+
+
 
 /*
   [GET] /api/schemes/2/steps
@@ -91,6 +101,11 @@ router.get('/:scheme_id/steps', checkSchemeId, (req, res, next) => {
     .catch(next)
 })
 
+
+
+
+
+
 /*
   [POST] /api/schemes { "scheme_name": "Take Ovah" }
 
@@ -109,6 +124,11 @@ router.post('/', validateScheme, (req, res, next) => {
     })
     .catch(next)
 })
+
+
+
+
+
 
 /*
   [POST] /api/schemes/5/steps { "instructions": "and yet more questing", "step_number": 2 }
@@ -139,6 +159,12 @@ router.post('/:scheme_id/steps', checkSchemeId, validateStep, (req, res, next) =
     })
     .catch(next)
 })
+
+
+
+
+
+
 
 router.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({
