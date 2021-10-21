@@ -173,7 +173,7 @@ async function addStep(scheme_id, step) { // EXERCISE E
   //   'step_number': step.step_number
   // }
 
-  db('steps').insert({
+  await db('steps').insert({
     'scheme_id': scheme_id,
     'instructions': step.instructions,
     'step_number': step.step_number
