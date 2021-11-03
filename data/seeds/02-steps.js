@@ -16,10 +16,10 @@ const steps = [
   { scheme_id: 6, step_number: 3, instructions: 'artfully craft accessories' },
   { scheme_id: 6, step_number: 1, instructions: 'steal coworker\'s name tag' },
   { scheme_id: 6, step_number: 2, instructions: 'procure facial hair' },
-]
+];
 
-exports.steps = steps
+exports.steps = steps;
 
 exports.seed = function (knex) {
-  return knex('steps').insert(steps)
-}
+  return knex('steps').insert(steps);
+};
