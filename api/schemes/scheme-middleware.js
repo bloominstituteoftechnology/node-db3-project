@@ -1,3 +1,4 @@
+const Scheme = require("./scheme-model");
 /*
   If `scheme_id` does not exist in the database:
 
@@ -6,9 +7,21 @@
     "message": "scheme with scheme_id <actual id> not found"
   }
 */
-const checkSchemeId = (req, res, next) => {
-
-}
+const checkSchemeId = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const check = await Scheme.findById(id);
+    if (!check) {
+      res
+        .status(404)
+        .json({ message: `scheme with scheme_id ${id} not found` });
+    } else {
+      next();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 /*
   If `scheme_name` is missing, empty string or not a string:
@@ -19,8 +32,13 @@ const checkSchemeId = (req, res, next) => {
   }
 */
 const validateScheme = (req, res, next) => {
-
-}
+  const { scheme_name } = req.body;
+  if (!scheme_name || scheme_name == !typeof "string") {
+    res.status(400).json({ message: "invalid scheme_name" });
+  } else {
+    next();
+  }
+};
 
 /*
   If `instructions` is missing, empty string or not a string, or
@@ -32,11 +50,18 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
-
-}
+  const { instructions, step_number } = req.body;
+  if (!instructions || instructions == !typeof "string") {
+    res.status(400).json({ message: "invalid step" });
+  } else if (!step_number || step_number == !typeof "string") {
+    res.status(400).json({ message: "invalid step" });
+  } else {
+    next();
+  }
+};
 
 module.exports = {
   checkSchemeId,
   validateScheme,
   validateStep,
-}
+};
