@@ -43,7 +43,7 @@ async function findSteps(scheme_id) {
     .orderBy("st.step_number");
 
   if (!rows[0].step_id) return []
-    return rows;
+    return rows
 }
 
 function add(scheme) {
