@@ -16,7 +16,7 @@ async function findById(scheme_id) {
     .orderBy("st.step_number", "ASC");
 
   const result = {
-    scheme_id: rows[0].scheme_id,
+    scheme_id: Number(scheme_id),
     scheme_name: rows[0].scheme_name,
     steps: rows[0].step_id
       ? rows.map((step) => {
@@ -68,14 +68,27 @@ async function findSteps(scheme_id) {
   */
 }
 
-function add(scheme) {
+async function add(scheme) {
+  const [scheme_id] = await db("schemes").insert(scheme, [
+    "scheme_id",
+    "scheme_name",
+  ]);
+  return findById(scheme_id);
+
   // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
 }
 
-function addStep(scheme_id, step) {
+async function addStep(scheme_id, step) {
+  await db("steps").insert({
+    scheme_id: scheme_id,
+    step_number: step.step_number,
+    instructions: step.instructions,
+  });
+  return findSteps(scheme_id);
+
   // EXERCISE E
   /*
     1E- This function adds a step to the scheme with the given `scheme_id`
