@@ -1,5 +1,5 @@
-const Schemes = require('./scheme-model')
-const { schemeSchema, stepSchema } = require('./schemas/index')
+const Schemes = require('./scheme-model');
+const { schemeSchema, stepSchema } = require('./scheme-schemas/index');
 /*
   If `scheme_id` does not exist in the database:
 
@@ -10,18 +10,18 @@ const { schemeSchema, stepSchema } = require('./schemas/index')
 */
 const checkSchemeId = async(req, res, next) => {
   try{
-    const { scheme_id } = req.params
-    const scheme = await Schemes.findById(scheme_id)
+    const { scheme_id } = req.params;
+    const scheme = await Schemes.findById(scheme_id);
     if(!scheme){
-      next({ status: 404, message: `scheme with scheme_id ${scheme_id} not found`})
+      next({ status: 404, message: `scheme with scheme_id ${scheme_id} not found`});
     }else{
-      req.scheme=scheme
-      next()
+      req.scheme=scheme;
+      next();
     }
   }catch(err){
-    next(err)
+    next(err);
   }
-}
+};
 
 /*
   If `scheme_name` is missing, empty string or not a string:
@@ -33,14 +33,19 @@ const checkSchemeId = async(req, res, next) => {
 */
 const validateScheme = async (req, res, next) => {
   try{
-    const valid = await schemeSchema.validate(req.body)
-    req.body=valid
-    next()
+    const { scheme_name } = req.body;
+    if(!scheme_name || scheme_name === '' || typeof scheme_name !== 'string'){
+    // const valid = await schemeSchema.validate(req.body)
+    // req.body = valid
+    next({ status: 400, message: 'invalid scheme_name'});
+    }else{
+      next();
+    }
   }catch(err){
-    next({ status:400, message: err.message})
+    next(err);
   }
     
-}
+};
 
 /*
   If `instructions` is missing, empty string or not a string, or
@@ -53,16 +58,16 @@ const validateScheme = async (req, res, next) => {
 */
 const validateStep = async (req, res, next) => {
   try{
-    const valid = await stepSchema.validate(req.body)
-    req.body = valid
-    next()
+    const valid = await stepSchema.validate(req.body);
+    req.body = valid;
+    next();
   }catch(err){
-    next({ status: 400, message: err.message})
+    next({ status: 400, message: err.message});
   }
-}
+};
  
 module.exports = {
   checkSchemeId,
   validateScheme,
   validateStep,
-} 
+}; 

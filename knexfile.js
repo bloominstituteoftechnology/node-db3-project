@@ -11,10 +11,10 @@ const sharedConfig = {
   // this enables foreign keys in SQLite
   pool: {
     afterCreate: (conn, done) => {
-      conn.run('PRAGMA foreign_keys = ON', done)
+      conn.run('PRAGMA foreign_keys = ON', done);
     },
   },
-}
+};
 
 module.exports = {
   development: {
@@ -25,4 +25,4 @@ module.exports = {
     ...sharedConfig,
     connection: { filename: './data/testing.db3' },
   },
-}
+};
