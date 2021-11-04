@@ -42,7 +42,7 @@ async function findSteps(scheme_id) {
     .select("st.step_id", "st.step_number", "st.instructions", "sc.scheme_name")
     .orderBy("st.step_number");
 
-  if (!rows[0].step_id) return [];
+  if (!rows[0].step_id) return []
     return rows;
 }
 
