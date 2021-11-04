@@ -1,9 +1,12 @@
 const Schemes = require('./scheme-model')
+const db = require('../../data/db-config')
 
 const checkSchemeId = async (req, res, next) => {
   try {
     const scheme_id = req.params.scheme_id
-    const scheme = await Schemes.findById(scheme_id)
+    const scheme = await db('schemes')
+      .where('scheme_id', scheme_id)
+      .first()
     if(scheme) {
       next()
     } else {
@@ -21,8 +24,8 @@ const validateScheme = (req, res, next) => {
   const { scheme_name } = req.body
   if(
     scheme_name === undefined ||
-    !scheme_name.trim() ||
-    typeof scheme_name !== 'string'
+    typeof scheme_name !== 'string' ||
+    !scheme_name.trim() 
   ) {
     next({
       status:400,
