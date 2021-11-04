@@ -1,4 +1,6 @@
-function find() { // EXERCISE A
+const db =require('../../data/db-config')
+
+async function find() { // EXERCISE A
   /*
     1A- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`.
     What happens if we change from a LEFT join to an INNER join?
@@ -6,8 +8,8 @@ function find() { // EXERCISE A
       SELECT
           sc.*,
           count(st.step_id) as number_of_steps
-      FROM schemes as sc
-      LEFT JOIN steps as st
+      FROM schemes as sc//
+      LEFT JOIN steps as st//
           ON sc.scheme_id = st.scheme_id
       GROUP BY sc.scheme_id
       ORDER BY sc.scheme_id ASC;
@@ -15,6 +17,12 @@ function find() { // EXERCISE A
     2A- When you have a grasp on the query go ahead and build it in Knex.
     Return from this function the resulting dataset.
   */
+ const findScheme = await db('schemes as sc')
+  .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+  .groupBy('sc.scheme_id')
+  .select('sc.*')
+  .count('st.step_id as number_of_steps')
+  return findScheme
 }
 
 function findById(scheme_id) { // EXERCISE B
@@ -32,6 +40,8 @@ function findById(scheme_id) { // EXERCISE B
 
     2B- When you have a grasp on the query go ahead and build it in Knex
     making it parametric: instead of a literal `1` you should use `scheme_id`.
+
+    
 
     3B- Test in Postman and see that the resulting data does not look like a scheme,
     but more like an array of steps each including scheme information:
