@@ -10,18 +10,18 @@ const Scheme = require('./scheme-model')
 */
 const checkSchemeId = async (req, res, next) => {
   try {
-    const { id } = req.params.id
-    const schemeID = await Scheme.findById(id)
-    if (!schemeID) {
-      res.status(404).json({
-        status: 404,
-        message: 'Scheme with specific ID is not found'
-      })
-    } else {
+    const scheme_id = req.params.scheme_id
+    const scheme = await Schemes.findById(scheme_id)
+    if(scheme) {
       next()
+    } else {
+      next({
+        status: 404,
+        message: `scheme with scheme_id ${scheme_id} not found`
+      })
     }
-  } catch (error) {
-    next(error)
+  } catch (err) {
+    next(err)
   }
 }
 
@@ -35,10 +35,14 @@ const checkSchemeId = async (req, res, next) => {
 */
 const validateScheme = (req, res, next) => {
   const { scheme_name } = req.body
-  if (!scheme_name || scheme_name == !typeof 'string') {
-    res.status(400).json({
-      status: 400,
-      message: 'Invalid scheme name'
+  if(
+    scheme_name === undefined ||
+    !scheme_name.trim() ||
+    typeof scheme_name !== 'string'
+  ) {
+    next({
+      status:400,
+      message: 'invalid scheme_name'
     })
   } else {
     next()
@@ -55,16 +59,18 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
+
   const { instructions, step_number } = req.body
-  if (!instructions || instructions == !typeof 'string') {
-    res.status(400).json({
-      status: 400,
-      message: 'Invalid step'
-    })
-  } else if (!step_number || step_number ==!typeof 'string') {
-    res.status(400).json({
-      status: 400,
-      message: 'Invalid step'
+  if (
+    instructions === undefined ||
+    typeof instructions !== 'string' ||
+    !instructions.trim() ||
+    typeof step_number !== 'number' ||
+    step_number < 1
+  ) {
+    next({
+      status:400,
+      message: 'invalid step'
     })
   } else {
     next()
