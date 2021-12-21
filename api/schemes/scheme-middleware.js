@@ -12,6 +12,7 @@ const checkSchemeId = async (req, res, next) => {
   try {
     const scheme = await db('schemes').where({ scheme_id: req.params.scheme_id }).first()
     //const scheme = await db('schemes').where( 'scheme_id', req.params.scheme_id ).first()
+    //18min
     if (!scheme.length) {
       res.status(404).json({ message: `scheme with scheme_id ${req.params.scheme_id} not found` })
     } 
@@ -36,7 +37,15 @@ const checkSchemeId = async (req, res, next) => {
   }
 */
 const validateScheme = (req, res, next) => {
-
+  if (!req.body.scheme_name || 
+    typeof req.body.scheme_name !== 'string' || 
+    //!req.body.scheme_name.trim() ||
+    req.body.scheme_name === '') {
+    //!req.body.scheme_name.trim() 
+    res.status(400).json({ message: 'invalid scheme_name' })
+  } else {
+    next()
+  } 
 }
 
 /*
