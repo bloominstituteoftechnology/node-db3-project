@@ -60,7 +60,7 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
-  const { instruction, step_number } = req.body
+  const { instructions, step_number } = req.body
 
   if (
     instructions === undefined || 
