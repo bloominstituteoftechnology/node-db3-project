@@ -27,6 +27,8 @@ const validateScheme = (req, res, next) => {
   const scheme_name = req.body  
   if (!scheme_name) {
     res.status(400).json({message: 'invalid scheme_name'})
+  } else {
+    next()
   }
 }
 
